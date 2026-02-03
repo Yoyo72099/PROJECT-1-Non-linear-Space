@@ -1,1 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>纯图片布局网页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            /* 页面整体占满屏幕，作为所有图片元素的定位容器 */
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden; /* 防止图片超出屏幕出现滚动条 */
+        }
+
+        /* 1. 背景图片（最底层，铺满整个屏幕） */
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* 层级最低，保证其他图片在上方 */
+            /* 预留背景图片占位，后续替换你的背景图片路径即可 */
+            background-image: url("你的背景图片路径.jpg");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover; /* 让背景图片适配屏幕，铺满且不变形 */
+        }
+
+        /* 2. 通用按键图片样式（提取公共定位属性，简化代码） */
+        .key-image {
+            position: absolute;
+            z-index: 2; /* 层级高于背景，低于中间文字条（可选） */
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain; /* 按键图片保持原有比例，完整显示 */
+        }
+
+        /* 3. 左侧 control 按键图片（左上位置） */
+        .key-control {
+            top: 35px;
+            left: 35px;
+            width: 115px;  /* 预留宽度，可根据你的图片调整 */
+            height: 115px; /* 预留高度，可根据你的图片调整 */
+            background-image: url("你的control按键图片路径.png");
+        }
+
+        /* 4. 底部中间 command 按键图片（居中位置） */
+        .key-command {
+            bottom: 45px;
+            left: 50%;
+            transform: translateX(-50%); /* 水平居中，精准对齐 */
+            width: 135px;  /* 预留宽度，可根据你的图片调整 */
+            height: 135px; /* 预留高度，可根据你的图片调整 */
+            background-image: url("你的command按键图片路径.png");
+        }
+
+        /* 5. 右侧 Shift 按键图片（右下位置） */
+        .key-shift {
+            bottom: 35px;
+            right: 35px;
+            width: 185px;  /* 预留宽度，可根据你的图片调整 */
+            height: 185px; /* 预留高度，可根据你的图片调整 */
+            background-image: url("你的Shift按键图片路径.png");
+        }
+
+        /* 6. 中间文字条图片（垂直水平居中，铺满横向） */
+        .text-banner-image {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%); /* 垂直居中，精准对齐 */
+            width: 100%;
+            height: 95px; /* 预留高度，可根据你的图片调整 */
+            z-index: 3; /* 层级最高，保证在按键上方显示 */
+            background-image: url("你的中间文字条图片路径.png");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain; /* 文字条图片保持比例，完整显示 */
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景图片容器 -->
+    <div class="bg-image"></div>
+    
+    <!-- 三个按键图片容器 -->
+    <div class="key-image key-control"></div>
+    <div class="key-image key-command"></div>
+    <div class="key-image key-shift"></div>
+    
+    <!-- 中间文字条图片容器 -->
+    <div class="text-banner-image"></div>
+</body>
+</html>
