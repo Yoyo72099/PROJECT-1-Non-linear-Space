@@ -1,1 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    
+    body {
+      background-color: #000; 
+      background-image: url("your-black-bg.jpg"); 
+      background-size: cover; 
+      background-position: center; 
+      background-repeat: no-repeat; 
+      min-height: 100vh; 
+      display: flex;
+      justify-content: center;
+      align-items: center; /* 让中间图片水平垂直居中 */
+      overflow: hidden;
+    }
+
+    /* 中间点击图片容器 */
+    .clickable-img {
+      cursor: pointer; /* 鼠标悬浮显示手型 */
+    }
+
+    /* 中间点击图片样式 - 增大默认显示尺寸 */
+    .clickable-img img {
+      width: 300px; /* 原220px，调整为300px，默认显示更大 */
+      height: auto; /* 保持图片宽高比 */
+      border: 4px solid #fff; /* 白色边框点缀，贴合黑色背景 */
+      border-radius: 8px; /* 轻微圆角，可选 */
+      transition: transform 0.5s ease; /* 放大动画过渡，时长0.5秒，平滑效果 */
+    }
+
+    /* 点击时的放大特效 - 增大放大倍数 */
+    .clickable-img.clicked img {
+      transform: scale(1.8); /* 原1.5倍，调整为1.8倍，放大效果更明显 */
+    }
+
+    /* 响应式适配：手机端同步放大图片，保持比例 */
+    @media (max-width: 768px) {
+      .clickable-img img {
+        width: 200px; /* 原150px，同步调整为200px，适配手机端 */
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 👇 中间点击图片，替换src内的图片路径即可，点击跳转到第二页 -->
+  <a href="page2.html" class="clickable-img" id="centerImage">
+    <img src="your-click-img.jpg" alt="点击进入下一页">
+  </a>
+
+  <script>
+    // 点击图片触发放大特效，再跳转第二页
+    const centerImage = document.getElementById('centerImage');
+    centerImage.addEventListener('click', function(e) {
+      e.preventDefault(); // 先阻止默认的直接跳转
+      this.classList.add('clicked'); // 添加放大样式，触发动画
+      // 等待动画结束（0.5秒，和CSS过渡时长一致）后，跳转第二页
+      setTimeout(() => {
+        window.location.href = this.href;
+      }, 500);
+    });
+  </script>
+</body>
+</html>
