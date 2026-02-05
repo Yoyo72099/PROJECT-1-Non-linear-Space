@@ -24,18 +24,19 @@
       overflow: hidden;
     }
 
-    /* 中间点击图片容器 */
+    /* 中间点击图片容器 - 调整为左下偏移，其他不变 */
     .clickable-img {
       cursor: pointer; /* 鼠标悬浮显示手型 */
+      /* 核心：translate(X, Y) - 负值左/上，正值右/下；左下=向左（负X）+ 向下（正Y） */
+      transform: translate(-30px, 20px); /* 向左30px + 向下20px，可按需调整数值 */
     }
 
-    /* 中间点击图片样式 - 移除边框、保留大小、配置悬浮过渡 */
+    
     .clickable-img img {
-      max-width: 400px; /* 保持更大的显示尺寸 */
+      max-width: 500px; /* 保持更大的显示尺寸 */
       max-height: 70vh; /* 保持不遮挡aboutme的核心限制 */
       width: auto; 
       height: auto; 
-      /* 移除原有白色边框：删除了 border: 4px solid #fff; */
       border-radius: 8px; /* 保留轻微圆角（可选，想取消也可以直接删除这行） */
       transition: transform 0.3s ease; /* 简化过渡，只为悬浮放大准备，时长缩短更灵动 */
     }
@@ -45,7 +46,7 @@
       transform: scale(1.1); 
     }
 
-    /* 响应式适配：保持不变，不遮挡背景 */
+
     @media (max-width: 768px) {
       .clickable-img img {
         max-width: 280px; 
@@ -55,7 +56,7 @@
   </style>
 </head>
 <body>
-  
+
   <a href="intro.html" class="clickable-img" id="centerImage">
     <img src="https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/IMG_0239.PNG?raw=true" alt="点击进入下一页">
   </a>
@@ -65,8 +66,7 @@
     const centerImage = document.getElementById('centerImage');
     centerImage.addEventListener('click', function(e) {
       e.preventDefault(); 
-     
-      window.location.href = this.href; 
+      window.location.href = this.href; // 直接跳转，无需延时
     });
   </script>
 </body>
