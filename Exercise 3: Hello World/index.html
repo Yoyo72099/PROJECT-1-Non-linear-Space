@@ -30,36 +30,39 @@
       cursor: pointer; /* 鼠标悬浮显示手型 */
     }
 
-    /* 中间点击图片样式 - 增大默认显示尺寸 */
+    /* 中间点击图片样式 - 调整大小：更大、居中、不遮挡aboutme */
     .clickable-img img {
-      width: 300px; /* 原220px，调整为300px，默认显示更大 */
+      /* 取消固定宽度，改用最大宽高限制，既大又不遮挡背景文字 */
+      max-width: 400px; /* 比原来300px更大，保证视觉醒目 */
+      max-height: 70vh; /* 核心：限制最大高度为视口70%，避免遮挡背景的aboutme */
+      width: auto; /* 取消固定宽度，保持图片宽高比 */
       height: auto; /* 保持图片宽高比 */
-      border: 4px solid #fff; /* 白色边框点缀，贴合黑色背景 */
-      border-radius: 8px; /* 轻微圆角，可选 */
-      transition: transform 0.5s ease; /* 放大动画过渡，时长0.5秒，平滑效果 */
+      border: 4px solid #fff; /* 保留原有白色边框 */
+      border-radius: 8px; /* 保留原有轻微圆角 */
+      /* 增加多属性过渡，为新增动画做准备，时长保持0.5秒不变 */
+      transition: transform 0.5s ease, opacity 0.3s ease, rotate 0.5s ease; 
+      opacity: 1; /* 初始不透明度 */
     }
 
-    /* 点击时的放大特效 - 增大放大倍数 */
+    /* 点击时的放大特效 - 丰富动画，保留放大且新增细节 */
     .clickable-img.clicked img {
-      transform: scale(1.8); /* 原1.5倍，调整为1.8倍，放大效果更明显 */
+      transform: scale(1.8); /* 保留原有1.8倍放大效果 */
+      rotate: 2deg; /* 新增轻微旋转，让动画更生动 */
+      opacity: 0.95; /* 新增轻微透明感，增加层次感 */
     }
 
-    /* 响应式适配：手机端同步放大图片，保持比例 */
-    @media (max-width: 768px) {
-      .clickable-img img {
-        width: 200px; /* 原150px，同步调整为200px，适配手机端 */
-      }
+    
     }
   </style>
 </head>
 <body>
-  <!-- 👇 中间点击图片，替换src内的图片路径即可，点击跳转到第二页 -->
+  <!-- 👇 中间点击图片，路径保留不变 -->
   <a href="intro.html" class="clickable-img" id="centerImage">
     <img src="https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/IMG_0239.PNG?raw=true" alt="点击进入下一页">
   </a>
 
   <script>
-    // 点击图片触发放大特效，再跳转第二页
+    // 点击图片触发放大特效，再跳转第二页（代码保留不变）
     const centerImage = document.getElementById('centerImage');
     centerImage.addEventListener('click', function(e) {
       e.preventDefault(); // 先阻止默认的直接跳转
