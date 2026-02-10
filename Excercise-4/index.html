@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -142,8 +142,8 @@
         <div class="artwork-container" id="artworkContainer">
             <img id="mainArtwork" alt="Interactive Artwork">
         </div>
-        <div class="scissors-mode-indicator" id="scissorsIndicator">✂️ 剪刀模式已激活 - 点击画作进行裁剪</div>
-        <button class="reset-button" id="resetButton">重置画作</button>
+        <div class="scissors-mode-indicator" id="scissorsIndicator">✂️ Scissors Mode Activated - Click artwork to cut</div>
+        <button class="reset-button" id="resetButton">Reset Artwork</button>
     </div>
 
     <script>
@@ -167,7 +167,7 @@
             setTimeout(() => instruction.remove(), 4000);
         }
 
-        showInstruction('双击画作两次来激活剪刀工具！');
+        showInstruction('Double-click the artwork twice to activate scissors tool!');
 
         // 检测双击
         artwork.addEventListener('dblclick', function() {
@@ -175,7 +175,7 @@
                 doubleClickCount++;
                 
                 if (doubleClickCount === 1) {
-                    showInstruction('再双击一次激活剪刀！');
+                    showInstruction('Double-click once more to activate scissors!');
                 } else if (doubleClickCount === 2) {
                     activateScissorsMode();
                 }
@@ -192,7 +192,7 @@
             doubleClickCount = 0;
             container.classList.add('scissors-cursor');
             indicator.classList.add('active');
-            showInstruction('✂️ 剪刀模式已激活！点击画作进行裁剪');
+            showInstruction('✂️ Scissors mode activated! Click artwork to cut');
             
             artwork.style.cursor = 'crosshair';
         }
@@ -256,7 +256,7 @@
             // 添加拖动功能
             makeDraggable(piece);
             
-            showInstruction('片段已裁剪！拖动它到任意位置');
+            showInstruction('Piece cut! Drag it anywhere');
         }
 
         // 使元素可拖动
@@ -303,7 +303,7 @@
             container.classList.remove('scissors-cursor');
             indicator.classList.remove('active');
             artwork.style.cursor = 'default';
-            showInstruction('画作已重置！');
+            showInstruction('Artwork reset!');
         });
 
         // 防止图片被拖动
