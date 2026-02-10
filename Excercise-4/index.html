@@ -42,7 +42,6 @@
         #mainArtwork {
             max-width: 100%;
             max-height: 100%;
-            content: url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/截屏2026-02-10%20下午5.09.31.png?raw=true');
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             user-select: none;
             position: relative;
@@ -64,21 +63,22 @@
             position: absolute;
             cursor: move;
             user-select: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: box-shadow 0.2s, transform 0.1s;
+            transition: transform 0.1s;
             z-index: 10;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.4));
         }
 
         .cut-piece:hover {
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.4);
             z-index: 20;
-            transform: scale(1.02);
+            transform: scale(1.03);
+            filter: drop-shadow(0 10px 25px rgba(255, 255, 255, 0.3));
         }
 
         .cut-piece.dragging {
             opacity: 0.9;
             z-index: 100;
-            transform: rotate(2deg) scale(1.05);
+            transform: rotate(3deg) scale(1.05);
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.6));
         }
 
         .instruction {
@@ -101,32 +101,6 @@
         @keyframes fadeInOut {
             0%, 100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
             15%, 85% { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-
-        .scissors-mode-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.9), rgba(200, 0, 50, 0.9));
-            color: white;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 18px;
-            z-index: 1000;
-            display: none;
-            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
-        }
-
-        .scissors-mode-indicator.active {
-            display: block;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: translateX(-50%) scale(1); }
-            50% { transform: translateX(-50%) scale(1.08); }
         }
 
         .reset-button {
@@ -160,27 +134,13 @@
         .reset-button:active {
             transform: translateY(0);
         }
-
-        .cut-line {
-            position: absolute;
-            background: rgba(255, 0, 0, 0.6);
-            pointer-events: none;
-            z-index: 5;
-            animation: cutFlash 0.3s ease-out;
-        }
-
-        @keyframes cutFlash {
-            0% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(1.5); }
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="artwork-container" id="artworkContainer">
-            <img id="mainArtwork" alt="Interactive Artwork">
+            <img id="mainArtwork" src="/mnt/user-data/uploads/截屏2026-02-10_下午5_09_31.png" alt="Interactive Artwork">
         </div>
-        <div class="scissors-mode-indicator" id="scissorsIndicator">✂️ Scissors Mode Active - Click to Cut!</div>
         <button class="reset-button" id="resetButton">Reset Artwork</button>
     </div>
 
@@ -193,8 +153,63 @@
         
         const artwork = document.getElementById('mainArtwork');
         const container = document.getElementById('artworkContainer');
-        const indicator = document.getElementById('scissorsIndicator');
         const resetButton = document.getElementById('resetButton');
+
+        // 创建剪刀剪纸音效（使用Web Audio API生成）
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playScissorSound() {
+            const now = audioContext.currentTime;
+            
+            // 创建白噪声（模拟纸张撕裂的沙沙声）
+            const bufferSize = audioContext.sampleRate * 0.3; // 0.3秒
+            const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+            const data = buffer.getChannelData(0);
+            
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
+            
+            const whiteNoise = audioContext.createBufferSource();
+            whiteNoise.buffer = buffer;
+            
+            // 滤波器（让声音更像剪纸）
+            const filter = audioContext.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.value = 2000;
+            filter.Q.value = 1;
+            
+            // 增益包络（模拟剪刀闭合的过程）
+            const gainNode = audioContext.createGain();
+            gainNode.gain.setValueAtTime(0, now);
+            gainNode.gain.linearRampToValueAtTime(0.15, now + 0.02);
+            gainNode.gain.linearRampToValueAtTime(0.25, now + 0.08);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+            
+            // 第二个音调（金属剪刀的"咔"声）
+            const oscillator = audioContext.createOscillator();
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(1200, now);
+            oscillator.frequency.exponentialRampToValueAtTime(400, now + 0.05);
+            
+            const oscGain = audioContext.createGain();
+            oscGain.gain.setValueAtTime(0.08, now);
+            oscGain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+            
+            // 连接音频节点
+            whiteNoise.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.connect(oscGain);
+            oscGain.connect(audioContext.destination);
+            
+            // 播放
+            whiteNoise.start(now);
+            whiteNoise.stop(now + 0.3);
+            oscillator.start(now);
+            oscillator.stop(now + 0.1);
+        }
 
         // 显示提示信息
         function showInstruction(text) {
@@ -224,9 +239,8 @@
         function activateScissorsMode() {
             scissorsMode = true;
             container.classList.add('scissors-cursor');
-            indicator.classList.add('active');
             resetButton.classList.add('active');
-            showInstruction('✂️ Scissors Mode Activated! Click artwork to cut pieces');
+            showInstruction('✂️ Scissors Activated! Click to cut the artwork');
             artwork.style.cursor = 'crosshair';
         }
 
@@ -242,12 +256,28 @@
             e.preventDefault();
         });
 
+        // 生成不规则的裁剪路径（模拟撕裂效果）
+        function generateIrregularPath(width, height) {
+            const points = [];
+            const numPoints = 20; // 边缘点数
+            
+            for (let i = 0; i < numPoints; i++) {
+                const angle = (i / numPoints) * Math.PI * 2;
+                const radiusVariation = 0.85 + Math.random() * 0.3; // 随机半径变化
+                const x = (width / 2) + (Math.cos(angle) * width / 2 * radiusVariation);
+                const y = (height / 2) + (Math.sin(angle) * height / 2 * radiusVariation);
+                points.push({ x, y });
+            }
+            
+            return points;
+        }
+
         function cutImage(clickX, clickY) {
             const rect = artwork.getBoundingClientRect();
             
-            // 创建随机大小的裁剪片段（更大的片段）
-            const pieceWidth = Math.random() * 200 + 150;
-            const pieceHeight = Math.random() * 200 + 150;
+            // 创建随机大小的裁剪片段
+            const pieceWidth = Math.random() * 250 + 200;
+            const pieceHeight = Math.random() * 250 + 200;
             
             // 计算裁剪起始位置
             let startX = Math.max(0, clickX - pieceWidth / 2);
@@ -262,6 +292,20 @@
             const ctx = canvas.getContext('2d');
             canvas.width = pieceWidth;
             canvas.height = pieceHeight;
+            
+            // 生成不规则裁剪路径
+            const irregularPoints = generateIrregularPath(pieceWidth, pieceHeight);
+            
+            // 应用不规则裁剪蒙版
+            ctx.beginPath();
+            ctx.moveTo(irregularPoints[0].x, irregularPoints[0].y);
+            for (let i = 1; i < irregularPoints.length; i++) {
+                const xc = (irregularPoints[i].x + irregularPoints[(i + 1) % irregularPoints.length].x) / 2;
+                const yc = (irregularPoints[i].y + irregularPoints[(i + 1) % irregularPoints.length].y) / 2;
+                ctx.quadraticCurveTo(irregularPoints[i].x, irregularPoints[i].y, xc, yc);
+            }
+            ctx.closePath();
+            ctx.clip();
             
             // 计算源图片的裁剪区域
             const scaleX = artwork.naturalWidth / rect.width;
@@ -280,6 +324,9 @@
                 pieceHeight
             );
             
+            // 播放剪刀音效
+            playScissorSound();
+            
             // 创建新的可拖动图片片段
             const piece = document.createElement('img');
             piece.src = canvas.toDataURL();
@@ -295,28 +342,12 @@
             // 添加拖动功能
             makeDraggable(piece);
             
-            // 添加裁剪视觉效果
-            showCutEffect(rect.left + clickX, rect.top + clickY);
-            
             // 如果裁剪了3片以上，隐藏原始画作
             if (cutPieces.length >= 3) {
                 artwork.classList.add('hidden');
             }
             
-            showInstruction('✂️ Piece cut! Drag it to rearrange');
-        }
-
-        // 显示裁剪效果
-        function showCutEffect(x, y) {
-            const cutLine = document.createElement('div');
-            cutLine.className = 'cut-line';
-            cutLine.style.width = '3px';
-            cutLine.style.height = '100px';
-            cutLine.style.left = x + 'px';
-            cutLine.style.top = (y - 50) + 'px';
-            document.body.appendChild(cutLine);
-            
-            setTimeout(() => cutLine.remove(), 300);
+            showInstruction('✂️ Piece cut! Drag to rearrange');
         }
 
         // 使元素可拖动
@@ -391,12 +422,11 @@
             // 重置状态
             scissorsMode = false;
             container.classList.remove('scissors-cursor');
-            indicator.classList.remove('active');
             resetButton.classList.remove('active');
             artwork.classList.remove('hidden');
             artwork.style.cursor = 'pointer';
             
-            showInstruction('🔄 Artwork Reset! Double-click to activate scissors again');
+            showInstruction('🔄 Artwork Reset! Double-click to start again');
         });
 
         // 防止图片被拖动
