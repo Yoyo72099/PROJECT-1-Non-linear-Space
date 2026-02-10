@@ -14,8 +14,9 @@
         body {
             font-family: 'Arial', sans-serif;
             overflow: hidden;
-            background-color: #1a1a1a; 
-            background-image: url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/截屏2026-02-10%20下午5.06.52.png?raw=true');
+            background-color: #1a1a1a;
+            /* 在这里添加你的背景图片链接 */
+            background-image: url('YOUR_BACKGROUND_IMAGE_URL_HERE');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -151,9 +152,13 @@
         const resetButton = document.getElementById('resetButton');
 
         // ==========================================
-        // 在这里设置你的图片和音效
+        // 📌 重要：在这里设置你的图片和音效URL
         // ==========================================
+        
+        // 👇 把下面这行的 'YOUR_ARTWORK_IMAGE_URL_HERE' 替换成你的画作图片链接
         const ARTWORK_URL = 'https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/截屏2026-02-10%20下午5.09.31.png?raw=true';
+        
+        // 👇 (可选) 把下面这行替换成你的剪刀音效链接
         const SCISSOR_SOUND_URL = 'YOUR_SCISSOR_SOUND_URL_HERE.mp3';
         
         let scissorAudio = null;
@@ -173,6 +178,12 @@
 
         // 加载图片
         function loadArtwork() {
+            // 检查是否设置了图片URL
+            if (ARTWORK_URL === 'https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/截屏2026-02-10%20下午5.09.31.png?raw=true') {
+                console.log('Please add your artwork image URL');
+                return;
+            }
+            
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.onload = function() {
@@ -192,7 +203,7 @@
                 showInstruction('🎨 Double-click to activate scissors!');
             };
             img.onerror = function() {
-                showInstruction('⚠️ Failed to load image. Check your URL!');
+                console.log('Failed to load image');
             };
             img.src = ARTWORK_URL;
         }
