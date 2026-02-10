@@ -15,7 +15,8 @@
             font-family: 'Arial', sans-serif;
             overflow: hidden;
             background-color: #1a1a1a;
-            background-image: url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/截屏2026-02-10%20下午5.06.52.png?raw=trueE');
+            /* 在这里添加你的背景图片链接 */
+            background-image: url('YOUR_BACKGROUND_IMAGE_URL_HERE');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -39,46 +40,35 @@
             align-items: center;
         }
 
-        #mainArtwork {
+        #artworkCanvas {
             max-width: 100%;
             max-height: 100%;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            user-select: none;
-            position: relative;
-            z-index: 1;
             cursor: pointer;
-            transition: opacity 0.3s;
-        }
-
-        #mainArtwork.hidden {
-            opacity: 0;
-            pointer-events: none;
         }
 
         .scissors-cursor {
-            cursor: crosshair !important;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="%23ff0000" d="M8 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm8-6l12-6-1-2-12 6-2 1-2-1L-1 0l-1 2 12 6 2 1-2 1L-2 16l1 2 12-6 2-1 2 1 12 6 1-2-12-6-2-1z"/></svg>'), crosshair !important;
         }
 
         .cut-piece {
             position: absolute;
             cursor: move;
             user-select: none;
-            transition: transform 0.1s;
             z-index: 10;
-            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.4));
+            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
         }
 
         .cut-piece:hover {
             z-index: 20;
-            transform: scale(1.03);
-            filter: drop-shadow(0 10px 25px rgba(255, 255, 255, 0.3));
+            filter: drop-shadow(0 12px 30px rgba(255, 255, 255, 0.4));
         }
 
         .cut-piece.dragging {
             opacity: 0.9;
             z-index: 100;
-            transform: rotate(3deg) scale(1.05);
-            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.6));
+            transform: rotate(2deg);
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7));
         }
 
         .instruction {
@@ -107,7 +97,7 @@
             position: absolute;
             top: 30px;
             right: 30px;
-            background: linear-gradient(135deg, rgba(100, 100, 255, 0.9), rgba(80, 80, 200, 0.9));
+            background: linear-gradient(135deg, rgba(120, 120, 120, 0.9), rgba(80, 80, 80, 0.9));
             color: white;
             border: none;
             padding: 15px 30px;
@@ -117,7 +107,7 @@
             cursor: pointer;
             z-index: 1000;
             transition: all 0.3s;
-            box-shadow: 0 5px 20px rgba(100, 100, 255, 0.4);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
             display: none;
         }
 
@@ -126,21 +116,22 @@
         }
 
         .reset-button:hover {
-            background: linear-gradient(135deg, rgba(120, 120, 255, 1), rgba(100, 100, 220, 1));
+            background: linear-gradient(135deg, rgba(140, 140, 140, 1), rgba(100, 100, 100, 1));
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(100, 100, 255, 0.6);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
         }
 
-        .reset-button:active {
-            transform: translateY(0);
+        .cut-line {
+            position: absolute;
+            pointer-events: none;
+            z-index: 5;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="artwork-container" id="artworkContainer">
-            <!-- 在下面这行替换成你的画作图片链接 -->
-            <img id="mainArtwork" src="https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/截屏2026-02-10%20下午5.09.31.png?raw=true" alt="Interactive Artwork">
+            <canvas id="artworkCanvas"></canvas>
         </div>
         <button class="reset-button" id="resetButton">Reset Artwork</button>
     </div>
@@ -148,29 +139,66 @@
     <script>
         let scissorsMode = false;
         let cutPieces = [];
+        let isCutting = false;
+        let cutPath = [];
         let draggedElement = null;
         let offsetX = 0;
         let offsetY = 0;
-        
-        const artwork = document.getElementById('mainArtwork');
+        let originalImage = null;
+
+        const canvas = document.getElementById('artworkCanvas');
+        const ctx = canvas.getContext('2d');
         const container = document.getElementById('artworkContainer');
         const resetButton = document.getElementById('resetButton');
 
         // ==========================================
-        // 剪刀音效设置 - 在这里添加你的音频文件链接
+        // 在这里设置你的图片和音效
         // ==========================================
-        const scissorAudio = new Audio('YOUR_SCISSOR_SOUND_URL_HERE.mp3');
-        scissorAudio.volume = 0.5; 
+        const ARTWORK_URL = 'https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/截屏2026-02-10%20下午5.09.31.png?raw=true';
+        const SCISSOR_SOUND_URL = 'YOUR_SCISSOR_SOUND_URL_HERE.mp3';
         
-        function playScissorSound() {
-            // 重置音频到开始位置，以便可以连续播放
-            scissorAudio.currentTime = 0;
-            scissorAudio.play().catch(err => {
-                console.log('Audio play failed:', err);
-            });
+        let scissorAudio = null;
+        try {
+            scissorAudio = new Audio(SCISSOR_SOUND_URL);
+            scissorAudio.volume = 0.5;
+        } catch(e) {
+            console.log('Audio not loaded');
         }
 
-        // 显示提示信息
+        function playScissorSound() {
+            if (scissorAudio) {
+                scissorAudio.currentTime = 0;
+                scissorAudio.play().catch(() => {});
+            }
+        }
+
+        // 加载图片
+        function loadArtwork() {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = function() {
+                originalImage = img;
+                
+                // 设置canvas大小以适应图片
+                const maxWidth = window.innerWidth * 0.85;
+                const maxHeight = window.innerHeight * 0.85;
+                const scale = Math.min(maxWidth / img.width, maxHeight / img.height, 1);
+                
+                canvas.width = img.width * scale;
+                canvas.height = img.height * scale;
+                
+                // 绘制图片
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                
+                showInstruction('🎨 Double-click to activate scissors!');
+            };
+            img.onerror = function() {
+                showInstruction('⚠️ Failed to load image. Check your URL!');
+            };
+            img.src = ARTWORK_URL;
+        }
+
+        // 显示提示
         function showInstruction(text) {
             const instruction = document.createElement('div');
             instruction.className = 'instruction';
@@ -179,142 +207,183 @@
             setTimeout(() => instruction.remove(), 5000);
         }
 
-        // 页面加载时显示初始提示
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                showInstruction('🎨 Double-click the artwork to activate scissors!');
-            }, 500);
-        });
-
-        // 检测双击 - 只需要双击一次
-        artwork.addEventListener('dblclick', function(e) {
-            if (!scissorsMode) {
-                activateScissorsMode();
-                e.preventDefault();
+        // 双击激活剪刀
+        canvas.addEventListener('dblclick', function(e) {
+            if (!scissorsMode && originalImage) {
+                scissorsMode = true;
+                container.classList.add('scissors-cursor');
+                resetButton.classList.add('active');
+                showInstruction('✂️ Drag to cut! Release to finish cutting');
             }
-        });
-
-        // 激活剪刀模式
-        function activateScissorsMode() {
-            scissorsMode = true;
-            container.classList.add('scissors-cursor');
-            resetButton.classList.add('active');
-            showInstruction('✂️ Scissors Activated! Click to cut the artwork');
-            artwork.style.cursor = 'crosshair';
-        }
-
-        // 裁剪功能 - 点击画作进行裁剪
-        artwork.addEventListener('click', function(e) {
-            if (!scissorsMode) return;
-            
-            const rect = artwork.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            cutImage(x, y);
             e.preventDefault();
         });
 
-        // 生成不规则的裁剪路径（模拟撕裂效果）
-        function generateIrregularPath(width, height) {
-            const points = [];
-            const numPoints = 20; // 边缘点数
+        // 开始剪切
+        canvas.addEventListener('mousedown', function(e) {
+            if (!scissorsMode || !originalImage) return;
             
-            for (let i = 0; i < numPoints; i++) {
-                const angle = (i / numPoints) * Math.PI * 2;
-                const radiusVariation = 0.85 + Math.random() * 0.3; // 随机半径变化
-                const x = (width / 2) + (Math.cos(angle) * width / 2 * radiusVariation);
-                const y = (height / 2) + (Math.sin(angle) * height / 2 * radiusVariation);
-                points.push({ x, y });
-            }
+            isCutting = true;
+            cutPath = [];
+            const rect = canvas.getBoundingClientRect();
+            cutPath.push({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
             
-            return points;
-        }
-
-        function cutImage(clickX, clickY) {
-            const rect = artwork.getBoundingClientRect();
-            
-            // 创建随机大小的裁剪片段
-            const pieceWidth = Math.random() * 250 + 200;
-            const pieceHeight = Math.random() * 250 + 200;
-            
-            // 计算裁剪起始位置
-            let startX = Math.max(0, clickX - pieceWidth / 2);
-            let startY = Math.max(0, clickY - pieceHeight / 2);
-            
-            // 确保不超出边界
-            if (startX + pieceWidth > rect.width) startX = rect.width - pieceWidth;
-            if (startY + pieceHeight > rect.height) startY = rect.height - pieceHeight;
-            
-            // 创建canvas来裁剪图片
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = pieceWidth;
-            canvas.height = pieceHeight;
-            
-            // 生成不规则裁剪路径
-            const irregularPoints = generateIrregularPath(pieceWidth, pieceHeight);
-            
-            // 应用不规则裁剪蒙版
-            ctx.beginPath();
-            ctx.moveTo(irregularPoints[0].x, irregularPoints[0].y);
-            for (let i = 1; i < irregularPoints.length; i++) {
-                const xc = (irregularPoints[i].x + irregularPoints[(i + 1) % irregularPoints.length].x) / 2;
-                const yc = (irregularPoints[i].y + irregularPoints[(i + 1) % irregularPoints.length].y) / 2;
-                ctx.quadraticCurveTo(irregularPoints[i].x, irregularPoints[i].y, xc, yc);
-            }
-            ctx.closePath();
-            ctx.clip();
-            
-            // 计算源图片的裁剪区域
-            const scaleX = artwork.naturalWidth / rect.width;
-            const scaleY = artwork.naturalHeight / rect.height;
-            
-            // 绘制裁剪的图片片段
-            ctx.drawImage(
-                artwork,
-                startX * scaleX,
-                startY * scaleY,
-                pieceWidth * scaleX,
-                pieceHeight * scaleY,
-                0,
-                0,
-                pieceWidth,
-                pieceHeight
-            );
-            
-            // 播放剪刀音效
             playScissorSound();
+            e.preventDefault();
+        });
+
+        // 剪切中 - 记录路径
+        canvas.addEventListener('mousemove', function(e) {
+            if (!isCutting) return;
             
-            // 创建新的可拖动图片片段
-            const piece = document.createElement('img');
-            piece.src = canvas.toDataURL();
-            piece.className = 'cut-piece';
-            piece.style.width = pieceWidth + 'px';
-            piece.style.height = pieceHeight + 'px';
-            piece.style.left = (rect.left + startX) + 'px';
-            piece.style.top = (rect.top + startY) + 'px';
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
             
-            document.body.appendChild(piece);
-            cutPieces.push(piece);
+            cutPath.push({ x, y });
             
-            // 添加拖动功能
-            makeDraggable(piece);
+            // 绘制剪切线
+            if (cutPath.length > 1) {
+                const prev = cutPath[cutPath.length - 2];
+                ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(prev.x, prev.y);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+            }
+        });
+
+        // 结束剪切 - 分割图片
+        canvas.addEventListener('mouseup', function(e) {
+            if (!isCutting) return;
             
-            // 如果裁剪了3片以上，隐藏原始画作
-            if (cutPieces.length >= 3) {
-                artwork.classList.add('hidden');
+            isCutting = false;
+            
+            if (cutPath.length > 10) {
+                performCut();
             }
             
-            showInstruction('✂️ Piece cut! Drag to rearrange');
+            cutPath = [];
+        });
+
+        // 执行剪切 - 把图片沿着路径分成两部分
+        function performCut() {
+            const rect = canvas.getBoundingClientRect();
+            
+            // 创建两个新的canvas片段
+            const canvasData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            
+            // 简化版：创建沿着剪切线的两侧片段
+            // 上半部分
+            const piece1 = createPieceFromPath(canvasData, cutPath, true);
+            if (piece1) {
+                const img1 = document.createElement('img');
+                img1.src = piece1.canvas.toDataURL();
+                img1.className = 'cut-piece';
+                img1.style.width = piece1.width + 'px';
+                img1.style.height = piece1.height + 'px';
+                img1.style.left = (rect.left + piece1.x) + 'px';
+                img1.style.top = (rect.top + piece1.y) + 'px';
+                document.body.appendChild(img1);
+                cutPieces.push(img1);
+                makeDraggable(img1);
+            }
+            
+            // 下半部分
+            const piece2 = createPieceFromPath(canvasData, cutPath, false);
+            if (piece2) {
+                const img2 = document.createElement('img');
+                img2.src = piece2.canvas.toDataURL();
+                img2.className = 'cut-piece';
+                img2.style.width = piece2.width + 'px';
+                img2.style.height = piece2.height + 'px';
+                img2.style.left = (rect.left + piece2.x) + 'px';
+                img2.style.top = (rect.top + piece2.y) + 'px';
+                document.body.appendChild(img2);
+                cutPieces.push(img2);
+                makeDraggable(img2);
+            }
+            
+            // 清空原canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.style.display = 'none';
+            
+            showInstruction('✂️ Cut complete! Drag pieces to rearrange');
         }
 
-        // 使元素可拖动
+        // 创建剪切片段
+        function createPieceFromPath(imageData, path, isTop) {
+            if (path.length < 2) return null;
+            
+            // 找到边界
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            path.forEach(p => {
+                minX = Math.min(minX, p.x);
+                minY = Math.min(minY, p.y);
+                maxX = Math.max(maxX, p.x);
+                maxY = Math.max(maxY, p.y);
+            });
+            
+            // 扩展边界
+            if (isTop) {
+                minY = 0;
+            } else {
+                maxY = canvas.height;
+            }
+            minX = Math.max(0, Math.floor(minX - 10));
+            maxX = Math.min(canvas.width, Math.ceil(maxX + 10));
+            minY = Math.max(0, Math.floor(minY - 10));
+            maxY = Math.min(canvas.height, Math.ceil(maxY + 10));
+            
+            const width = maxX - minX;
+            const height = maxY - minY;
+            
+            if (width <= 0 || height <= 0) return null;
+            
+            // 创建新canvas
+            const pieceCanvas = document.createElement('canvas');
+            pieceCanvas.width = width;
+            pieceCanvas.height = height;
+            const pieceCtx = pieceCanvas.getContext('2d');
+            
+            // 复制图像数据
+            const pieceData = pieceCtx.createImageData(width, height);
+            
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const srcX = minX + x;
+                    const srcY = minY + y;
+                    const srcIndex = (srcY * canvas.width + srcX) * 4;
+                    const dstIndex = (y * width + x) * 4;
+                    
+                    pieceData.data[dstIndex] = imageData.data[srcIndex];
+                    pieceData.data[dstIndex + 1] = imageData.data[srcIndex + 1];
+                    pieceData.data[dstIndex + 2] = imageData.data[srcIndex + 2];
+                    pieceData.data[dstIndex + 3] = imageData.data[srcIndex + 3];
+                }
+            }
+            
+            pieceCtx.putImageData(pieceData, 0, 0);
+            
+            return {
+                canvas: pieceCanvas,
+                x: minX,
+                y: minY,
+                width: width,
+                height: height
+            };
+        }
+
+        // 使片段可拖动
         function makeDraggable(element) {
             element.addEventListener('mousedown', startDrag);
-            element.addEventListener('touchstart', startDragTouch, { passive: false });
             
             function startDrag(e) {
+                if (scissorsMode) return; // 剪切模式下不拖动
+                
                 draggedElement = element;
                 element.classList.add('dragging');
                 
@@ -326,21 +395,7 @@
                 document.addEventListener('mouseup', stopDrag);
                 
                 e.preventDefault();
-            }
-            
-            function startDragTouch(e) {
-                draggedElement = element;
-                element.classList.add('dragging');
-                
-                const rect = element.getBoundingClientRect();
-                const touch = e.touches[0];
-                offsetX = touch.clientX - rect.left;
-                offsetY = touch.clientY - rect.top;
-                
-                document.addEventListener('touchmove', dragTouch, { passive: false });
-                document.addEventListener('touchend', stopDrag);
-                
-                e.preventDefault();
+                e.stopPropagation();
             }
             
             function drag(e) {
@@ -350,16 +405,6 @@
                 draggedElement.style.top = (e.clientY - offsetY) + 'px';
             }
             
-            function dragTouch(e) {
-                if (!draggedElement) return;
-                
-                const touch = e.touches[0];
-                draggedElement.style.left = (touch.clientX - offsetX) + 'px';
-                draggedElement.style.top = (touch.clientY - offsetY) + 'px';
-                
-                e.preventDefault();
-            }
-            
             function stopDrag() {
                 if (draggedElement) {
                     draggedElement.classList.remove('dragging');
@@ -367,32 +412,29 @@
                 }
                 document.removeEventListener('mousemove', drag);
                 document.removeEventListener('mouseup', stopDrag);
-                document.removeEventListener('touchmove', dragTouch);
-                document.removeEventListener('touchend', stopDrag);
             }
         }
 
-        // 重置功能
+        // 重置
         resetButton.addEventListener('click', function() {
-            // 移除所有裁剪片段
             cutPieces.forEach(piece => piece.remove());
             cutPieces = [];
             
-            // 重置状态
             scissorsMode = false;
             container.classList.remove('scissors-cursor');
             resetButton.classList.remove('active');
-            artwork.classList.remove('hidden');
-            artwork.style.cursor = 'pointer';
             
-            showInstruction('🔄 Artwork Reset! Double-click to start again');
+            canvas.style.display = 'block';
+            if (originalImage) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
+            }
+            
+            showInstruction('🔄 Reset! Double-click to start again');
         });
 
-        // 防止图片被拖动
-        artwork.addEventListener('dragstart', (e) => e.preventDefault());
-        
-        // 防止右键菜单
-        artwork.addEventListener('contextmenu', (e) => e.preventDefault());
+        // 加载图片
+        loadArtwork();
     </script>
 </body>
 </html>
