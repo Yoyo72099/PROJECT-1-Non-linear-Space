@@ -299,7 +299,6 @@
 
 <div class="page-wrapper">
   <header>
-    <button class="reset-btn" id="resetBtnTop">Reset</button>
   </header>
 
   <div class="canvas-container">
@@ -363,6 +362,17 @@
   let dblClickCount = 0;
   let dblClickTimer = null;
 
+  // ====== Scissors Sound Effect ======
+  // ========== 替换下面的音效URL ==========
+  const scissorsSound = new Audio('YOUR_SCISSORS_SOUND_URL_HERE');
+  // =======================================
+  scissorsSound.volume = 0.6;
+
+  function playScissorsSound() {
+    scissorsSound.currentTime = 0;
+    scissorsSound.play().catch(() => {});
+  }
+
   // Horizontal and vertical cut positions (as fractions 0-1)
   let hCuts = [];
   let vCuts = [];
@@ -393,7 +403,8 @@
     cutInfo.classList.add('active');
     resetBtnTop.classList.add('visible');
     showHint('✂ Scissors unlocked! Cut the painting and rearrange.');
-    // Add default cuts
+    // Add default cuts with sound
+    playScissorsSound();
     addCut('h', 0.33);
     addCut('h', 0.66);
     addCut('v', 0.33);
@@ -421,6 +432,7 @@
     do { pos = 0.15 + Math.random() * 0.7; }
     while (hCuts.some(c => Math.abs(c - pos) < 0.08));
     addCut('h', pos);
+    playScissorsSound();
     applyCuts();
   });
 
@@ -430,6 +442,7 @@
     do { pos = 0.15 + Math.random() * 0.7; }
     while (vCuts.some(c => Math.abs(c - pos) < 0.08));
     addCut('v', pos);
+    playScissorsSound();
     applyCuts();
   });
 
