@@ -139,7 +139,8 @@
 <body>
     <div class="container">
         <div class="artwork-container" id="artworkContainer">
-            <img id="https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/截屏2026-02-10%20下午5.09.31.png?raw=true" alt="Interactive Artwork">
+            <!-- 在下面这行替换成你的画作图片链接 -->
+            <img id="mainArtwork" src="https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/截屏2026-02-10%20下午5.09.31.png?raw=true" alt="Interactive Artwork">
         </div>
         <button class="reset-button" id="resetButton">Reset Artwork</button>
     </div>
@@ -155,60 +156,18 @@
         const container = document.getElementById('artworkContainer');
         const resetButton = document.getElementById('resetButton');
 
-        // 创建剪刀剪纸音效（使用Web Audio API生成）
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        // ==========================================
+        // 剪刀音效设置 - 在这里添加你的音频文件链接
+        // ==========================================
+        const scissorAudio = new Audio('YOUR_SCISSOR_SOUND_URL_HERE.mp3');
+        scissorAudio.volume = 0.5; 
         
         function playScissorSound() {
-            const now = audioContext.currentTime;
-            
-            // 创建白噪声（模拟纸张撕裂的沙沙声）
-            const bufferSize = audioContext.sampleRate * 0.3; // 0.3秒
-            const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
-            const data = buffer.getChannelData(0);
-            
-            for (let i = 0; i < bufferSize; i++) {
-                data[i] = Math.random() * 2 - 1;
-            }
-            
-            const whiteNoise = audioContext.createBufferSource();
-            whiteNoise.buffer = buffer;
-            
-            // 滤波器（让声音更像剪纸）
-            const filter = audioContext.createBiquadFilter();
-            filter.type = 'bandpass';
-            filter.frequency.value = 2000;
-            filter.Q.value = 1;
-            
-            // 增益包络（模拟剪刀闭合的过程）
-            const gainNode = audioContext.createGain();
-            gainNode.gain.setValueAtTime(0, now);
-            gainNode.gain.linearRampToValueAtTime(0.15, now + 0.02);
-            gainNode.gain.linearRampToValueAtTime(0.25, now + 0.08);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-            
-            // 第二个音调（金属剪刀的"咔"声）
-            const oscillator = audioContext.createOscillator();
-            oscillator.type = 'square';
-            oscillator.frequency.setValueAtTime(1200, now);
-            oscillator.frequency.exponentialRampToValueAtTime(400, now + 0.05);
-            
-            const oscGain = audioContext.createGain();
-            oscGain.gain.setValueAtTime(0.08, now);
-            oscGain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-            
-            // 连接音频节点
-            whiteNoise.connect(filter);
-            filter.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.connect(oscGain);
-            oscGain.connect(audioContext.destination);
-            
-            // 播放
-            whiteNoise.start(now);
-            whiteNoise.stop(now + 0.3);
-            oscillator.start(now);
-            oscillator.stop(now + 0.1);
+            // 重置音频到开始位置，以便可以连续播放
+            scissorAudio.currentTime = 0;
+            scissorAudio.play().catch(err => {
+                console.log('Audio play failed:', err);
+            });
         }
 
         // 显示提示信息
