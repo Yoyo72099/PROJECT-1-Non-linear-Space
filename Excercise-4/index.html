@@ -15,7 +15,6 @@
             font-family: 'Arial', sans-serif;
             overflow: hidden;
             background-color: #1a1a1a;
-            
             background-image: url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/截屏2026-02-10%20下午5.06.52.png?raw=trueE');
             background-size: cover;
             background-position: center;
@@ -43,97 +42,136 @@
         #mainArtwork {
             max-width: 100%;
             max-height: 100%;
-            
             content: url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/截屏2026-02-10%20下午5.09.31.png?raw=true');
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             user-select: none;
             position: relative;
             z-index: 1;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        #mainArtwork.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
 
         .scissors-cursor {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="%23ff0000" d="M14 8c0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2 2-.9 2-2zm-2 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm8-4l8-8-2-2-8 8-2 2-2-2-8-8-2 2 8 8 2 2-2 2-8 8 2 2 8-8 2-2 2 2 8 8 2-2-8-8-2-2z"/></svg>'), auto !important;
+            cursor: crosshair !important;
         }
 
         .cut-piece {
             position: absolute;
             cursor: move;
             user-select: none;
-            transition: box-shadow 0.2s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: box-shadow 0.2s, transform 0.1s;
             z-index: 10;
         }
 
         .cut-piece:hover {
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.4);
             z-index: 20;
+            transform: scale(1.02);
         }
 
         .cut-piece.dragging {
-            opacity: 0.8;
+            opacity: 0.9;
             z-index: 100;
+            transform: rotate(2deg) scale(1.05);
         }
 
         .instruction {
             position: absolute;
-            top: 20px;
+            top: 30px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.85);
             color: white;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 18px;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 20px;
             z-index: 1000;
             pointer-events: none;
             opacity: 0;
-            animation: fadeInOut 4s ease-in-out;
+            animation: fadeInOut 5s ease-in-out;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         @keyframes fadeInOut {
-            0%, 100% { opacity: 0; }
-            10%, 90% { opacity: 1; }
+            0%, 100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+            15%, 85% { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
 
         .scissors-mode-indicator {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(255, 0, 0, 0.8);
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.9), rgba(200, 0, 50, 0.9));
             color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 15px 30px;
+            border-radius: 25px;
             font-weight: bold;
+            font-size: 18px;
             z-index: 1000;
             display: none;
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
         }
 
         .scissors-mode-indicator.active {
             display: block;
-            animation: pulse 1s infinite;
+            animation: pulse 1.5s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.08); }
         }
 
         .reset-button {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(100, 100, 255, 0.8);
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, rgba(100, 100, 255, 0.9), rgba(80, 80, 200, 0.9));
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 5px;
+            padding: 15px 30px;
+            border-radius: 25px;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
             z-index: 1000;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(100, 100, 255, 0.4);
+            display: none;
+        }
+
+        .reset-button.active {
+            display: block;
         }
 
         .reset-button:hover {
-            background: rgba(100, 100, 255, 1);
+            background: linear-gradient(135deg, rgba(120, 120, 255, 1), rgba(100, 100, 220, 1));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(100, 100, 255, 0.6);
+        }
+
+        .reset-button:active {
+            transform: translateY(0);
+        }
+
+        .cut-line {
+            position: absolute;
+            background: rgba(255, 0, 0, 0.6);
+            pointer-events: none;
+            z-index: 5;
+            animation: cutFlash 0.3s ease-out;
+        }
+
+        @keyframes cutFlash {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.5); }
         }
     </style>
 </head>
@@ -142,62 +180,57 @@
         <div class="artwork-container" id="artworkContainer">
             <img id="mainArtwork" alt="Interactive Artwork">
         </div>
-        <div class="scissors-mode-indicator" id="scissorsIndicator">✂️ Scissors Mode Activated - Click artwork to cut</div>
+        <div class="scissors-mode-indicator" id="scissorsIndicator">✂️ Scissors Mode Active - Click to Cut!</div>
         <button class="reset-button" id="resetButton">Reset Artwork</button>
     </div>
 
     <script>
-        let doubleClickCount = 0;
         let scissorsMode = false;
         let cutPieces = [];
         let draggedElement = null;
         let offsetX = 0;
         let offsetY = 0;
+        
         const artwork = document.getElementById('mainArtwork');
         const container = document.getElementById('artworkContainer');
         const indicator = document.getElementById('scissorsIndicator');
         const resetButton = document.getElementById('resetButton');
 
-        // 显示初始提示
+        // 显示提示信息
         function showInstruction(text) {
             const instruction = document.createElement('div');
             instruction.className = 'instruction';
             instruction.textContent = text;
             document.body.appendChild(instruction);
-            setTimeout(() => instruction.remove(), 4000);
+            setTimeout(() => instruction.remove(), 5000);
         }
 
-        showInstruction('Double-click the artwork twice to activate scissors tool!');
+        // 页面加载时显示初始提示
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                showInstruction('🎨 Double-click the artwork to activate scissors!');
+            }, 500);
+        });
 
-        // 检测双击
-        artwork.addEventListener('dblclick', function() {
+        // 检测双击 - 只需要双击一次
+        artwork.addEventListener('dblclick', function(e) {
             if (!scissorsMode) {
-                doubleClickCount++;
-                
-                if (doubleClickCount === 1) {
-                    showInstruction('Double-click once more to activate scissors!');
-                } else if (doubleClickCount === 2) {
-                    activateScissorsMode();
-                }
-                
-                setTimeout(() => {
-                    if (doubleClickCount < 2) doubleClickCount = 0;
-                }, 1000);
+                activateScissorsMode();
+                e.preventDefault();
             }
         });
 
         // 激活剪刀模式
         function activateScissorsMode() {
             scissorsMode = true;
-            doubleClickCount = 0;
             container.classList.add('scissors-cursor');
             indicator.classList.add('active');
-            showInstruction('✂️ Scissors mode activated! Click artwork to cut');
-            
+            resetButton.classList.add('active');
+            showInstruction('✂️ Scissors Mode Activated! Click artwork to cut pieces');
             artwork.style.cursor = 'crosshair';
         }
 
-        // 裁剪功能
+        // 裁剪功能 - 点击画作进行裁剪
         artwork.addEventListener('click', function(e) {
             if (!scissorsMode) return;
             
@@ -206,18 +239,23 @@
             const y = e.clientY - rect.top;
             
             cutImage(x, y);
+            e.preventDefault();
         });
 
         function cutImage(clickX, clickY) {
             const rect = artwork.getBoundingClientRect();
             
-            // 创建随机大小的裁剪片段
-            const pieceWidth = Math.random() * 150 + 100;
-            const pieceHeight = Math.random() * 150 + 100;
+            // 创建随机大小的裁剪片段（更大的片段）
+            const pieceWidth = Math.random() * 200 + 150;
+            const pieceHeight = Math.random() * 200 + 150;
             
-            // 确保裁剪不超出边界
-            const startX = Math.max(0, clickX - pieceWidth / 2);
-            const startY = Math.max(0, clickY - pieceHeight / 2);
+            // 计算裁剪起始位置
+            let startX = Math.max(0, clickX - pieceWidth / 2);
+            let startY = Math.max(0, clickY - pieceHeight / 2);
+            
+            // 确保不超出边界
+            if (startX + pieceWidth > rect.width) startX = rect.width - pieceWidth;
+            if (startY + pieceHeight > rect.height) startY = rect.height - pieceHeight;
             
             // 创建canvas来裁剪图片
             const canvas = document.createElement('canvas');
@@ -229,6 +267,7 @@
             const scaleX = artwork.naturalWidth / rect.width;
             const scaleY = artwork.naturalHeight / rect.height;
             
+            // 绘制裁剪的图片片段
             ctx.drawImage(
                 artwork,
                 startX * scaleX,
@@ -256,12 +295,34 @@
             // 添加拖动功能
             makeDraggable(piece);
             
-            showInstruction('Piece cut! Drag it anywhere');
+            // 添加裁剪视觉效果
+            showCutEffect(rect.left + clickX, rect.top + clickY);
+            
+            // 如果裁剪了3片以上，隐藏原始画作
+            if (cutPieces.length >= 3) {
+                artwork.classList.add('hidden');
+            }
+            
+            showInstruction('✂️ Piece cut! Drag it to rearrange');
+        }
+
+        // 显示裁剪效果
+        function showCutEffect(x, y) {
+            const cutLine = document.createElement('div');
+            cutLine.className = 'cut-line';
+            cutLine.style.width = '3px';
+            cutLine.style.height = '100px';
+            cutLine.style.left = x + 'px';
+            cutLine.style.top = (y - 50) + 'px';
+            document.body.appendChild(cutLine);
+            
+            setTimeout(() => cutLine.remove(), 300);
         }
 
         // 使元素可拖动
         function makeDraggable(element) {
             element.addEventListener('mousedown', startDrag);
+            element.addEventListener('touchstart', startDragTouch, { passive: false });
             
             function startDrag(e) {
                 draggedElement = element;
@@ -277,11 +338,36 @@
                 e.preventDefault();
             }
             
+            function startDragTouch(e) {
+                draggedElement = element;
+                element.classList.add('dragging');
+                
+                const rect = element.getBoundingClientRect();
+                const touch = e.touches[0];
+                offsetX = touch.clientX - rect.left;
+                offsetY = touch.clientY - rect.top;
+                
+                document.addEventListener('touchmove', dragTouch, { passive: false });
+                document.addEventListener('touchend', stopDrag);
+                
+                e.preventDefault();
+            }
+            
             function drag(e) {
                 if (!draggedElement) return;
                 
                 draggedElement.style.left = (e.clientX - offsetX) + 'px';
                 draggedElement.style.top = (e.clientY - offsetY) + 'px';
+            }
+            
+            function dragTouch(e) {
+                if (!draggedElement) return;
+                
+                const touch = e.touches[0];
+                draggedElement.style.left = (touch.clientX - offsetX) + 'px';
+                draggedElement.style.top = (touch.clientY - offsetY) + 'px';
+                
+                e.preventDefault();
             }
             
             function stopDrag() {
@@ -291,23 +377,33 @@
                 }
                 document.removeEventListener('mousemove', drag);
                 document.removeEventListener('mouseup', stopDrag);
+                document.removeEventListener('touchmove', dragTouch);
+                document.removeEventListener('touchend', stopDrag);
             }
         }
 
         // 重置功能
         resetButton.addEventListener('click', function() {
+            // 移除所有裁剪片段
             cutPieces.forEach(piece => piece.remove());
             cutPieces = [];
+            
+            // 重置状态
             scissorsMode = false;
-            doubleClickCount = 0;
             container.classList.remove('scissors-cursor');
             indicator.classList.remove('active');
-            artwork.style.cursor = 'default';
-            showInstruction('Artwork reset!');
+            resetButton.classList.remove('active');
+            artwork.classList.remove('hidden');
+            artwork.style.cursor = 'pointer';
+            
+            showInstruction('🔄 Artwork Reset! Double-click to activate scissors again');
         });
 
         // 防止图片被拖动
         artwork.addEventListener('dragstart', (e) => e.preventDefault());
+        
+        // 防止右键菜单
+        artwork.addEventListener('contextmenu', (e) => e.preventDefault());
     </script>
 </body>
 </html>
