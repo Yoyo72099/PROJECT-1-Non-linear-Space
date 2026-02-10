@@ -298,8 +298,6 @@
 <body>
 
 <div class="page-wrapper">
-  <header>
-  </header>
 
   <div class="canvas-container">
     <div class="painting-frame" id="paintingFrame">
@@ -356,7 +354,6 @@
   const btnCutV = document.getElementById('btnCutV');
   const btnScatter = document.getElementById('btnScatter');
   const btnReset = document.getElementById('btnReset');
-  const resetBtnTop = document.getElementById('resetBtnTop');
 
   let scissorsUnlocked = false;
   let dblClickCount = 0;
@@ -401,9 +398,8 @@
     frame.classList.add('scissors-mode');
     toolbar.classList.add('active');
     cutInfo.classList.add('active');
-    resetBtnTop.classList.add('visible');
     showHint('✂ Scissors unlocked! Cut the painting and rearrange.');
-    // Add default cuts with sound
+    // Add default cuts
     playScissorsSound();
     addCut('h', 0.33);
     addCut('h', 0.66);
@@ -448,23 +444,6 @@
 
   btnScatter.addEventListener('click', scatterPieces);
   btnReset.addEventListener('click', resetAll);
-  resetBtnTop.addEventListener('click', fullReset);
-
-  function fullReset() {
-    hCuts = [];
-    vCuts = [];
-    isCut = false;
-    scissorsUnlocked = false;
-    dblClickCount = 0;
-    piecesLayer.classList.remove('active');
-    piecesLayer.innerHTML = '';
-    originalImg.style.opacity = '1';
-    originalImg.style.pointerEvents = 'auto';
-    frame.classList.remove('scissors-mode');
-    toolbar.classList.remove('active');
-    cutInfo.classList.remove('active');
-    resetBtnTop.classList.remove('visible');
-  }
 
   function applyCuts() {
     isCut = true;
