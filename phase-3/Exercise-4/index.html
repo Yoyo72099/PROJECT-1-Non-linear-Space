@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Non-Linear Text Art</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            background-color: #1a1a1a;
+            /* 在这里添加你的背景图片 */
+            background-image: url('YOUR_BACKGROUND_IMAGE_URL_HERE');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .artwork-container {
+            width: 85vw;
+            height: 85vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #mainArtwork {
+            max-width: 100%;
+            max-height: 100%;
+            /* 在这里添加你的画作图片 */
+            content: url('YOUR_ARTWORK_IMAGE_URL_HERE');
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            user-select: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .scissors-cursor {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="%23ff0000" d="M14 8c0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2 2-.9 2-2zm-2 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm8-4l8-8-2-2-8 8-2 2-2-2-8-8-2 2 8 8 2 2-2 2-8 8 2 2 8-8 2-2 2 2 8 8 2-2-8-8-2-2z"/></svg>'), auto !important;
+        }
+
+        .cut-piece {
+            position: absolute;
+            cursor: move;
+            user-select: none;
+            transition: box-shadow 0.2s;
+            z-index: 10;
+        }
+
+        .cut-piece:hover {
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+            z-index: 20;
+        }
+
+        .cut-piece.dragging {
+            opacity: 0.8;
+            z-index: 100;
+        }
+
+        .instruction {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            animation: fadeInOut 4s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            10%, 90% { opacity: 1; }
+        }
+
+        .scissors-mode-indicator {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            z-index: 1000;
+            display: none;
+        }
+
+        .scissors-mode-indicator.active {
+            display: block;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .reset-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(100, 100, 255, 0.8);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: background 0.3s;
+        }
+
+        .reset-button:hover {
+            background: rgba(100, 100, 255, 1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="artwork-container" id="artworkContainer">
+            <img id="mainArtwork" alt="Interactive Artwork">
+        </div>
+        <div class="scissors-mode-indicator" id="scissorsIndicator">✂️ 剪刀模式已激活 - 点击画作进行裁剪</div>
+        <button class="reset-button" id="resetButton">重置画作</button>
+    </div>
+
+    <script>
+        let doubleClickCount = 0;
+        let scissorsMode = false;
+        let cutPieces = [];
+        let draggedElement = null;
+        let offsetX = 0;
+        let offsetY = 0;
+        const artwork = document.getElementById('mainArtwork');
+        const container = document.getElementById('artworkContainer');
+        const indicator = document.getElementById('scissorsIndicator');
+        const resetButton = document.getElementById('resetButton');
+
+        // 显示初始提示
+        function showInstruction(text) {
+            const instruction = document.createElement('div');
+            instruction.className = 'instruction';
+            instruction.textContent = text;
+            document.body.appendChild(instruction);
+            setTimeout(() => instruction.remove(), 4000);
+        }
+
+        showInstruction('双击画作两次来激活剪刀工具！');
+
+        // 检测双击
+        artwork.addEventListener('dblclick', function() {
+            if (!scissorsMode) {
+                doubleClickCount++;
+                
+                if (doubleClickCount === 1) {
+                    showInstruction('再双击一次激活剪刀！');
+                } else if (doubleClickCount === 2) {
+                    activateScissorsMode();
+                }
+                
+                setTimeout(() => {
+                    if (doubleClickCount < 2) doubleClickCount = 0;
+                }, 1000);
+            }
+        });
+
+        // 激活剪刀模式
+        function activateScissorsMode() {
+            scissorsMode = true;
+            doubleClickCount = 0;
+            container.classList.add('scissors-cursor');
+            indicator.classList.add('active');
+            showInstruction('✂️ 剪刀模式已激活！点击画作进行裁剪');
+            
+            artwork.style.cursor = 'crosshair';
+        }
+
+        // 裁剪功能
+        artwork.addEventListener('click', function(e) {
+            if (!scissorsMode) return;
+            
+            const rect = artwork.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            cutImage(x, y);
+        });
+
+        function cutImage(clickX, clickY) {
+            const rect = artwork.getBoundingClientRect();
+            
+            // 创建随机大小的裁剪片段
+            const pieceWidth = Math.random() * 150 + 100;
+            const pieceHeight = Math.random() * 150 + 100;
+            
+            // 确保裁剪不超出边界
+            const startX = Math.max(0, clickX - pieceWidth / 2);
+            const startY = Math.max(0, clickY - pieceHeight / 2);
+            
+            // 创建canvas来裁剪图片
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = pieceWidth;
+            canvas.height = pieceHeight;
+            
+            // 计算源图片的裁剪区域
+            const scaleX = artwork.naturalWidth / rect.width;
+            const scaleY = artwork.naturalHeight / rect.height;
+            
+            ctx.drawImage(
+                artwork,
+                startX * scaleX,
+                startY * scaleY,
+                pieceWidth * scaleX,
+                pieceHeight * scaleY,
+                0,
+                0,
+                pieceWidth,
+                pieceHeight
+            );
+            
+            // 创建新的可拖动图片片段
+            const piece = document.createElement('img');
+            piece.src = canvas.toDataURL();
+            piece.className = 'cut-piece';
+            piece.style.width = pieceWidth + 'px';
+            piece.style.height = pieceHeight + 'px';
+            piece.style.left = (rect.left + startX) + 'px';
+            piece.style.top = (rect.top + startY) + 'px';
+            
+            document.body.appendChild(piece);
+            cutPieces.push(piece);
+            
+            // 添加拖动功能
+            makeDraggable(piece);
+            
+            showInstruction('片段已裁剪！拖动它到任意位置');
+        }
+
+        // 使元素可拖动
+        function makeDraggable(element) {
+            element.addEventListener('mousedown', startDrag);
+            
+            function startDrag(e) {
+                draggedElement = element;
+                element.classList.add('dragging');
+                
+                const rect = element.getBoundingClientRect();
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+                
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', stopDrag);
+                
+                e.preventDefault();
+            }
+            
+            function drag(e) {
+                if (!draggedElement) return;
+                
+                draggedElement.style.left = (e.clientX - offsetX) + 'px';
+                draggedElement.style.top = (e.clientY - offsetY) + 'px';
+            }
+            
+            function stopDrag() {
+                if (draggedElement) {
+                    draggedElement.classList.remove('dragging');
+                    draggedElement = null;
+                }
+                document.removeEventListener('mousemove', drag);
+                document.removeEventListener('mouseup', stopDrag);
+            }
+        }
+
+        // 重置功能
+        resetButton.addEventListener('click', function() {
+            cutPieces.forEach(piece => piece.remove());
+            cutPieces = [];
+            scissorsMode = false;
+            doubleClickCount = 0;
+            container.classList.remove('scissors-cursor');
+            indicator.classList.remove('active');
+            artwork.style.cursor = 'default';
+            showInstruction('画作已重置！');
+        });
+
+        // 防止图片被拖动
+        artwork.addEventListener('dragstart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>
