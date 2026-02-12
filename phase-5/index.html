@@ -1,1 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>An Online Space for Works That Never Reached Completion</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Cactus Jack Alternate';
+    src: url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/raw/refs/heads/main/Cactus-Jack-Alternate.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #0a0a0a;
+    color: #e8e4df;
+    font-family: 'DM Sans', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ====== Full-screen video background ====== */
+  .video-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .video-bg video {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    /* iOS 需要这些属性才能 inline 自动播放 */
+    -webkit-object-fit: cover;
+  }
+
+  /* ====== Click overlay (entire screen clickable) ====== */
+  .click-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Center enter hint */
+  .enter-hint {
+    font-family: 'Cactus Jack Alternate', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(201, 168, 124, 0.7);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    white-space: nowrap;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  }
+
+  /* Desktop hover */
+  .click-overlay:hover .enter-hint {
+    opacity: 1;
+  }
+
+  /* Mobile: always show hint since no hover */
+  @media (hover: none) {
+    .enter-hint {
+      opacity: 1;
+      animation: hintPulse 3s ease-in-out infinite;
+    }
+  }
+
+  /* ====== Title image: top-right corner, flush to edge ====== */
+  .title-img {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    pointer-events: none;
+    animation: titleFade 2s ease 0.5s both;
+  }
+
+  .title-img img {
+    display: block;
+    /* 用 vw 单位让手机和电脑按比例一致 */
+    height: 3vw;
+    min-height: 20px;
+    max-height: 45px;
+    width: auto;
+    opacity: 0.85;
+    filter: invert(1) brightness(1.2);
+  }
+
+  /* ====== Vignette ====== */
+  .vignette {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 3;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
+  }
+
+  /* ====== Animations ====== */
+  @keyframes titleFade {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes hintPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== 全屏视频背景：替换下面的src ========== -->
+<div class="video-bg">
+  <video autoplay muted loop playsinline webkit-playsinline>
+    <source src="YOUR_VIDEO_URL_HERE" type="video/mp4">
+  </video>
+</div>
+<!-- ================================================= -->
+
+<!-- Vignette overlay -->
+<div class="vignette"></div>
+
+<!-- ========== 右上角标题图片（贴边）：替换下面的src ========== -->
+<div class="title-img">
+  <img src="YOUR_TITLE_IMAGE_URL_HERE" alt="An online space for works that never reached completion." />
+</div>
+<!-- =========================================================== -->
+
+<!-- ========== 点击整个画面进入第二页：替换下面的href ========== -->
+<a class="click-overlay" href="YOUR_SECOND_PAGE_URL_HERE">
+  <span class="enter-hint">Click to enter →</span>
+</a>
+<!-- =========================================================== -->
+
+</body>
+</html>
