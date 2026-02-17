@@ -21,7 +21,7 @@
     /* ========== 背景图片：替换下面的URL ========== */
     background: #0e0e0e url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/截屏2026-02-10%20下午5.06.52.png?raw=true') center/cover fixed;
     /* ============================================= */
-    color: #e8e4df;
+    color: #f0ece6;
     font-family: 'Cactus Jack Alternate', sans-serif;
     -webkit-tap-highlight-color: transparent;
   }
@@ -30,8 +30,44 @@
     content: '';
     position: fixed;
     inset: 0;
-    background: rgba(14, 14, 14, 0.75);
+    background: rgba(14, 14, 14, 0.7);
     z-index: 0;
+  }
+
+  /* ====== Back Button ====== */
+  .back-btn {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #e8c87a;
+    font-family: 'Cactus Jack Alternate', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    opacity: 0.85;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .back-btn:hover {
+    opacity: 1;
+    transform: translateX(-3px);
+  }
+
+  .back-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: #e8c87a;
+    stroke-width: 2.5;
+    fill: none;
+    transition: stroke 0.3s ease;
+  }
+
+  .back-btn:hover svg {
+    stroke: #f5dfa0;
   }
 
   /* ====== Page Entrance Transition ====== */
@@ -55,7 +91,7 @@
     z-index: 1;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 60px 40px 80px;
+    padding: 80px 40px 80px;
     display: flex;
     gap: 50px;
     align-items: flex-start;
@@ -98,8 +134,8 @@
 
   .edit-link img {
     display: block;
-    width: 36px;
-    height: 36px;
+    width: 42px;
+    height: 42px;
     /* ========== 如果图标是深色的，取消下面这行的注释让它变白 ========== */
     filter: invert(1) brightness(1.2);
     /* ============================================================== */
@@ -112,43 +148,44 @@
   }
 
   .info-block {
-    margin-bottom: 30px;
-    line-height: 1.8;
-    font-size: 0.95rem;
-    letter-spacing: 0.03em;
-    color: rgba(232, 228, 223, 0.8);
+    margin-bottom: 36px;
+    line-height: 2;
+    font-size: 1.15rem;
+    letter-spacing: 0.04em;
+    color: rgba(240, 236, 230, 0.9);
   }
 
   .info-block p {
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
 
   .info-block .label {
-    color: rgba(201, 168, 124, 0.7);
+    color: #e8c87a;
+    font-size: 1.1rem;
   }
 
   .text-block {
-    line-height: 2;
-    font-size: 0.95rem;
-    letter-spacing: 0.03em;
-    color: rgba(232, 228, 223, 0.85);
+    line-height: 2.1;
+    font-size: 1.15rem;
+    letter-spacing: 0.04em;
+    color: rgba(240, 236, 230, 0.92);
   }
 
   .text-block p {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
   }
 
   /* "deliberate blank spaces" link */
   .blank-link {
-    color: #c9a87c;
+    color: #e8c87a;
     text-decoration: none;
-    border-bottom: 1px solid rgba(201, 168, 124, 0.4);
+    border-bottom: 1px solid rgba(232, 200, 122, 0.5);
     transition: border-color 0.3s, color 0.3s;
   }
 
   .blank-link:hover {
-    color: #e0c9a6;
-    border-bottom-color: #e0c9a6;
+    color: #f5dfa0;
+    border-bottom-color: #f5dfa0;
   }
 
   /* ====== Animations ====== */
@@ -157,24 +194,86 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ====== Mobile: stack vertically ====== */
-  @media (max-width: 768px) {
+  /* ====== Tablet ====== */
+  @media (max-width: 900px) {
     .page-wrapper {
       flex-direction: column;
-      padding: 30px 20px 60px;
-      gap: 30px;
+      padding: 80px 30px 60px;
+      gap: 36px;
     }
 
     .left-col {
       width: 100%;
     }
 
+    .painting-wrap {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
     .right-col {
       width: 100%;
     }
 
+    .info-block {
+      font-size: 1.1rem;
+    }
+
+    .text-block {
+      font-size: 1.1rem;
+    }
+  }
+
+  /* ====== Mobile ====== */
+  @media (max-width: 576px) {
+    .back-btn {
+      top: 16px;
+      left: 16px;
+      font-size: 0.95rem;
+    }
+
+    .page-wrapper {
+      padding: 70px 20px 50px;
+      gap: 28px;
+    }
+
+    .painting-wrap {
+      max-width: 100%;
+    }
+
+    .info-block {
+      font-size: 1.05rem;
+      line-height: 2;
+      margin-bottom: 28px;
+    }
+
+    .info-block .label {
+      font-size: 1.05rem;
+    }
+
+    .text-block {
+      font-size: 1.05rem;
+      line-height: 2;
+    }
+
+    .text-block p {
+      margin-bottom: 24px;
+    }
+
+    .edit-link img {
+      width: 38px;
+      height: 38px;
+    }
+  }
+
+  /* ====== Small phones ====== */
+  @media (max-width: 380px) {
+    .page-wrapper {
+      padding: 65px 16px 40px;
+    }
+
     .info-block, .text-block {
-      font-size: 0.85rem;
+      font-size: 1rem;
     }
   }
 </style>
@@ -183,6 +282,14 @@
 
 <!-- Page entrance transition -->
 <div class="page-transition"></div>
+
+<!-- ====== Back Button ====== -->
+<a class="back-btn" href="https://yoyo72099.github.io/PROJECT-1-Non-linear-Space/phase-5/" title="Back to Homepage">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <polyline points="15 18 9 12 15 6"></polyline>
+  </svg>
+  Back
+</a>
 
 <div class="page-wrapper">
 
