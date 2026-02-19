@@ -6,6 +6,14 @@
 <title>Non-Linear Text — Deconstructed Canvas</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+  @font-face {
+    font-family: 'Cactus Jack Alternate';
+    src: url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/raw/refs/heads/main/Cactus-Jack-Alternate.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
   :root {
     --bg: #0e0e0e;
     --text: #e8e4df;
@@ -40,6 +48,26 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px 24px 80px;
+  }
+
+  /* ====== Back Button ====== */
+  .back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    display: inline-block;
+    text-decoration: none;
+    font-family: 'Cactus Jack Alternate', sans-serif;
+    font-size: 1rem;
+    color: rgba(201,168,124,0.7);
+    letter-spacing: 0.08em;
+    transition: color 0.3s, transform 0.3s;
+  }
+
+  .back-btn:hover {
+    color: #e0c9a6;
+    transform: translateX(-3px);
   }
 
   header {
@@ -296,6 +324,10 @@
 </style>
 </head>
 <body>
+
+<!-- ========== Back按钮：替换href ========== -->
+<a class="back-btn" href="https://yoyo72099.github.io/PROJECT-1-Non-linear-Space/phase-5/secondpage">← back</a>
+<!-- ======================================== -->
 
 <div class="page-wrapper">
 
