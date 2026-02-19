@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Alexander and Bucephalus</title>
+<style>
+  @font-face {
+    font-family: 'Cactus Jack Alternate';
+    src: url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/raw/refs/heads/main/Cactus-Jack-Alternate.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    min-height: 100vh;
+    /* ========== 背景图片：替换下面的URL ========== */
+    background: #0e0e0e url('YOUR_BACKGROUND_IMAGE_URL_HERE') center/cover fixed;
+    /* ============================================= */
+    color: #e8e4df;
+    font-family: 'Cactus Jack Alternate', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(14, 14, 14, 0.75);
+    z-index: 0;
+  }
+
+  /* ====== Page Entrance Transition ====== */
+  .page-transition {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a;
+    z-index: 9999;
+    pointer-events: none;
+    animation: pageReveal 1.2s ease 0.1s forwards;
+  }
+
+  @keyframes pageReveal {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* ====== Main Layout: Vertical ====== */
+  .page-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 30px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  /* ====== Painting Image ====== */
+  .painting-section {
+    width: 100%;
+    max-width: 750px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeUp 1s ease both;
+  }
+
+  .painting-wrap {
+    width: 100%;
+    border: 3px solid rgba(201, 168, 124, 0.25);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .painting-wrap img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ====== Text Section ====== */
+  .text-section {
+    width: 100%;
+    max-width: 750px;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+
+  .info-block {
+    margin-bottom: 35px;
+    line-height: 2;
+    font-size: 1.15rem;
+    letter-spacing: 0.03em;
+    color: rgba(232, 228, 223, 0.8);
+  }
+
+  .info-block p {
+    margin-bottom: 6px;
+  }
+
+  .info-block .label {
+    color: rgba(201, 168, 124, 0.7);
+  }
+
+  .text-block {
+    line-height: 2.1;
+    font-size: 1.1rem;
+    letter-spacing: 0.03em;
+    color: rgba(232, 228, 223, 0.85);
+  }
+
+  .text-block p {
+    margin-bottom: 28px;
+  }
+
+  /* Links */
+  .blank-link {
+    color: #c9a87c;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201, 168, 124, 0.4);
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .blank-link:hover {
+    color: #e0c9a6;
+    border-bottom-color: #e0c9a6;
+  }
+
+  /* ====== Animations ====== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ====== Mobile tweaks (keep same layout) ====== */
+  @media (max-width: 768px) {
+    .page-wrapper {
+      padding: 30px 18px 60px;
+      gap: 30px;
+    }
+  }
+
+  /* Fix iOS background-attachment: fixed bug */
+  @supports (-webkit-touch-callout: none) {
+    html, body {
+      background-attachment: scroll;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Page entrance transition -->
+<div class="page-transition"></div>
+
+<div class="page-wrapper">
+
+  <!-- ====== Painting Image ====== -->
+  <div class="painting-section">
+    <div class="painting-wrap">
+      <!-- ========== 画作图片：替换下面的src ========== -->
+      <img src="YOUR_PAINTING_IMAGE_URL_HERE" alt="Alexander and Bucephalus" />
+      <!-- ============================================= -->
+    </div>
+  </div>
+
+  <!-- ====== Text ====== -->
+  <div class="text-section">
+
+    <div class="info-block">
+      <p><span class="label">Title:</span> Alexander and Bucephalus</p>
+      <p><span class="label">Artist:</span> Edgar Degas</p>
+      <p><span class="label">Year:</span> 1859–1862 (never completed)</p>
+      <p><span class="label">Style:</span> Impressionism / History Painting</p>
+    </div>
+
+    <div class="text-block">
+      <p>
+        Degas's "Alexander and Bucephalus" is a painting about taming — but what was tamed was not the wild horse in the picture, but the artist himself. This painting sat in Degas's studio for over fifty years, enduring countless revisions, reversals, and restarts, until his death in 1917, when it remained in its "unfinished" state.
+      </p>
+
+      <p>
+        The scene depicts an ancient legend: the 12-year-old Alexander the Great taming Bucephalus, a horse no one else could control. The young Alexander stands on the left side of the canvas in a white robe, with the restless horse behind him and astonished onlookers all around. But strangely, the painting looks like a collage of two different works: the horse is meticulously rendered, every muscle clearly defined, while the foreground features bold, rough brushstrokes, with some figures' arms and legs seemingly "vanishing" into the canvas, as though they were never painted at all.
+      </p>
+
+      <p>
+        This was not a matter of skill, but a symptom of <a class="blank-link" href="https://yoyo72099.github.io/PROJECT-1-Non-linear-Space/phase-5/thirdpage">perfectionism</a>. Degas was never satisfied with this painting. He revised, repainted, and adjusted it over and over, but each change only pushed him further from "perfection." The horse was too finely detailed, making the figures look crude; if he refined the figures, the overall balance collapsed. He was trapped in an endless cycle — as he himself once said: "I tend to start a hundred things and never finish one."
+      </p>
+
+      <p>
+        Degas's perfectionism was legendary. Clients who purchased his paintings learned a trick: as soon as a work arrived, they would immediately lock it to the wall or secure it with chains, because Degas would sneak into their homes, take the painting down, and continue reworking it. His friends joked that Degas's paintings were never "finished" — they merely "escaped" from his studio.
+      </p>
+
+      <p>
+        In 1917, Degas passed away at the age of 83. A vast trove of unfinished works was discovered in his studio — some had been set aside for decades. "Alexander and Bucephalus" was among them, the exquisitely rendered horse still gazing forward while the rest of the canvas remained forever in a state of drafting. Ironically, it is precisely this "incompleteness" that makes the painting so moving: it is not a story of an ancient hero taming a horse, but a story of an artist who spent his entire life unable to tame the perfectionism within his own heart.
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
