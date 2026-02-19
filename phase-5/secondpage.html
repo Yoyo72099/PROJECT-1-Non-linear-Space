@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/IMG_6645.PNG?raw=true" type="image/png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>A Finished Story</title>
@@ -22,7 +21,7 @@
     /* ========== 背景图片：替换下面的URL ========== */
     background: #0e0e0e url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/截屏2026-02-10%20下午5.06.52.png?raw=true') center/cover fixed;
     /* ============================================= */
-    color: #f0ece6;
+    color: #e8e4df;
     font-family: 'Cactus Jack Alternate', sans-serif;
     -webkit-tap-highlight-color: transparent;
   }
@@ -31,44 +30,8 @@
     content: '';
     position: fixed;
     inset: 0;
-    background: rgba(14, 14, 14, 0.7);
+    background: rgba(14, 14, 14, 0.75);
     z-index: 0;
-  }
-
-  /* ====== Back Button ====== */
-  .back-btn {
-    position: fixed;
-    top: 24px;
-    left: 24px;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: #e8c87a;
-    font-family: 'Cactus Jack Alternate', sans-serif;
-    font-size: 1rem;
-    letter-spacing: 0.05em;
-    opacity: 0.85;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-
-  .back-btn:hover {
-    opacity: 1;
-    transform: translateX(-3px);
-  }
-
-  .back-btn svg {
-    width: 20px;
-    height: 20px;
-    stroke: #e8c87a;
-    stroke-width: 2.5;
-    fill: none;
-    transition: stroke 0.3s ease;
-  }
-
-  .back-btn:hover svg {
-    stroke: #f5dfa0;
   }
 
   /* ====== Page Entrance Transition ====== */
@@ -86,22 +49,23 @@
     100% { opacity: 0; }
   }
 
-  /* ====== Main Layout ====== */
+  /* ====== Main Layout: Vertical ====== */
   .page-wrapper {
     position: relative;
     z-index: 1;
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 80px 40px 80px;
+    padding: 50px 30px 80px;
     display: flex;
-    gap: 50px;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
   }
 
-  /* ====== Left: Painting + Edit Icon ====== */
-  .left-col {
-    flex: 0 0 auto;
-    width: 45%;
+  /* ====== Painting + Edit Icon ====== */
+  .painting-section {
+    width: 100%;
+    max-width: 750px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -120,40 +84,50 @@
     height: auto;
   }
 
-  /* Edit icon below painting */
+  /* Edit icon + label below painting */
   .edit-link {
-    margin-top: 20px;
-    display: inline-block;
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
     transition: transform 0.3s ease, opacity 0.3s ease;
     opacity: 0.7;
   }
 
   .edit-link:hover {
-    transform: scale(1.1);
+    transform: scale(1.08);
     opacity: 1;
   }
 
   .edit-link img {
     display: block;
-    width: 42px;
-    height: 42px;
-    /* ========== 如果图标是深色的，取消下面这行的注释让它变白 ========== */
+    width: 48px;
+    height: 48px;
     filter: invert(1) brightness(1.2);
-    /* ============================================================== */
   }
 
-  /* ====== Right: Text ====== */
-  .right-col {
-    flex: 1;
+  .edit-link span {
+    font-family: 'Cactus Jack Alternate', sans-serif;
+    font-size: 1.1rem;
+    color: rgba(201, 168, 124, 0.7);
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+  }
+
+  /* ====== Text Section ====== */
+  .text-section {
+    width: 100%;
+    max-width: 750px;
     animation: fadeUp 1s ease 0.2s both;
   }
 
   .info-block {
-    margin-bottom: 36px;
+    margin-bottom: 35px;
     line-height: 2;
     font-size: 1.15rem;
-    letter-spacing: 0.04em;
-    color: rgba(240, 236, 230, 0.9);
+    letter-spacing: 0.03em;
+    color: rgba(232, 228, 223, 0.8);
   }
 
   .info-block p {
@@ -161,15 +135,14 @@
   }
 
   .info-block .label {
-    color: #e8c87a;
-    font-size: 1.1rem;
+    color: rgba(201, 168, 124, 0.7);
   }
 
   .text-block {
     line-height: 2.1;
-    font-size: 1.15rem;
-    letter-spacing: 0.04em;
-    color: rgba(240, 236, 230, 0.92);
+    font-size: 1.1rem;
+    letter-spacing: 0.03em;
+    color: rgba(232, 228, 223, 0.85);
   }
 
   .text-block p {
@@ -178,15 +151,15 @@
 
   /* "deliberate blank spaces" link */
   .blank-link {
-    color: #e8c87a;
+    color: #c9a87c;
     text-decoration: none;
-    border-bottom: 1px solid rgba(232, 200, 122, 0.5);
+    border-bottom: 1px solid rgba(201, 168, 124, 0.4);
     transition: border-color 0.3s, color 0.3s;
   }
 
   .blank-link:hover {
-    color: #f5dfa0;
-    border-bottom-color: #f5dfa0;
+    color: #e0c9a6;
+    border-bottom-color: #e0c9a6;
   }
 
   /* ====== Animations ====== */
@@ -195,86 +168,18 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ====== Tablet ====== */
-  @media (max-width: 900px) {
+  /* ====== Mobile tweaks (keep same layout) ====== */
+  @media (max-width: 768px) {
     .page-wrapper {
-      flex-direction: column;
-      padding: 80px 30px 60px;
-      gap: 36px;
-    }
-
-    .left-col {
-      width: 100%;
-    }
-
-    .painting-wrap {
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    .right-col {
-      width: 100%;
-    }
-
-    .info-block {
-      font-size: 1.1rem;
-    }
-
-    .text-block {
-      font-size: 1.1rem;
+      padding: 30px 18px 60px;
+      gap: 30px;
     }
   }
 
-  /* ====== Mobile ====== */
-  @media (max-width: 576px) {
-    .back-btn {
-      top: 16px;
-      left: 16px;
-      font-size: 0.95rem;
-    }
-
-    .page-wrapper {
-      padding: 70px 20px 50px;
-      gap: 28px;
-    }
-
-    .painting-wrap {
-      max-width: 100%;
-    }
-
-    .info-block {
-      font-size: 1.05rem;
-      line-height: 2;
-      margin-bottom: 28px;
-    }
-
-    .info-block .label {
-      font-size: 1.05rem;
-    }
-
-    .text-block {
-      font-size: 1.05rem;
-      line-height: 2;
-    }
-
-    .text-block p {
-      margin-bottom: 24px;
-    }
-
-    .edit-link img {
-      width: 38px;
-      height: 38px;
-    }
-  }
-
-  /* ====== Small phones ====== */
-  @media (max-width: 380px) {
-    .page-wrapper {
-      padding: 65px 16px 40px;
-    }
-
-    .info-block, .text-block {
-      font-size: 1rem;
+  /* Fix iOS background-attachment: fixed bug */
+  @supports (-webkit-touch-callout: none) {
+    html, body {
+      background-attachment: scroll;
     }
   }
 </style>
@@ -284,35 +189,24 @@
 <!-- Page entrance transition -->
 <div class="page-transition"></div>
 
-<!-- ====== Back Button ====== -->
-<a class="back-btn" href="https://yoyo72099.github.io/PROJECT-1-Non-linear-Space/phase-5/" title="Back to Homepage">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <polyline points="15 18 9 12 15 6"></polyline>
-  </svg>
-  Back
-</a>
-
 <div class="page-wrapper">
 
-  <!-- ====== Left Column: Painting + Edit Icon ====== -->
-  <div class="left-col">
+  <!-- ====== Painting + Edit Icon ====== -->
+  <div class="painting-section">
 
     <div class="painting-wrap">
-      <!-- ========== 画作图片：替换下面的src ========== -->
       <img src="https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/IMG_6534.PNG?raw=true" alt="A Finished Story" />
-      <!-- ============================================= -->
     </div>
 
-    <!-- ========== Edit图标 + 链接：替换href和src ========== -->
     <a class="edit-link" href="https://yoyo72099.github.io/PROJECT-1-Non-linear-Space/Exercise-4/" title="Edit">
       <img src="https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/IMG_6529.PNG?raw=true" alt="Edit" />
+      <span>edit</span>
     </a>
-    <!-- ==================================================== -->
 
   </div>
 
-  <!-- ====== Right Column: Text ====== -->
-  <div class="right-col">
+  <!-- ====== Text ====== -->
+  <div class="text-section">
 
     <div class="info-block">
       <p><span class="label">Title:</span> A Finished Story</p>
@@ -324,9 +218,7 @@
     <div class="text-block">
       <p>
         Dean Cornwell's "A Finished Story" uses its unfinished composition to cleverly tell a deeply emotional story. In the painting, a mother holds her child with a heavy expression, while the father stands in the distance, his gaze solemn. There is a sense of estrangement between the background landscape and the figures. Parts of the work remain incomplete, with large areas of
-        <!-- ========== "deliberate blank spaces" 链接：替换href ========== -->
         <a class="blank-link" href="YOUR_BLANK_SPACES_LINK_URL_HERE">deliberate blank spaces</a>,
-        <!-- ============================================================= -->
         giving the viewer a feeling of suspense, as though the story has never truly ended.
       </p>
 
