@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>The Castle</title>
+<style>
+  @font-face {
+    font-family: 'Cactus Jack Alternate';
+    src: url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/raw/refs/heads/main/Cactus-Jack-Alternate.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    min-height: 100vh;
+    /* ========== 背景图片：替换下面的URL ========== */
+    background: #0e0e0e url('YOUR_BACKGROUND_IMAGE_URL_HERE') center/cover fixed;
+    /* ============================================= */
+    color: #e8e4df;
+    font-family: 'Cactus Jack Alternate', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(14, 14, 14, 0.75);
+    z-index: 0;
+  }
+
+  /* ====== Page Entrance Transition ====== */
+  .page-transition {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a;
+    z-index: 9999;
+    pointer-events: none;
+    animation: pageReveal 1.2s ease 0.1s forwards;
+  }
+
+  @keyframes pageReveal {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* ====== Main Layout: Vertical ====== */
+  .page-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 30px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  /* ====== Book Image (clickable) ====== */
+  .painting-section {
+    width: 100%;
+    max-width: 750px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeUp 1s ease both;
+  }
+
+  .painting-wrap {
+    width: 100%;
+    border: 3px solid rgba(201, 168, 124, 0.25);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .painting-wrap:hover {
+    transform: scale(1.01);
+    box-shadow: 0 25px 70px rgba(0,0,0,0.6);
+  }
+
+  .painting-wrap a {
+    display: block;
+  }
+
+  .painting-wrap img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ====== Text Section ====== */
+  .text-section {
+    width: 100%;
+    max-width: 750px;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+
+  .info-block {
+    margin-bottom: 35px;
+    line-height: 2;
+    font-size: 1.15rem;
+    letter-spacing: 0.03em;
+    color: rgba(232, 228, 223, 0.8);
+  }
+
+  .info-block p {
+    margin-bottom: 6px;
+  }
+
+  .info-block .label {
+    color: rgba(201, 168, 124, 0.7);
+  }
+
+  .text-block {
+    line-height: 2.1;
+    font-size: 1.1rem;
+    letter-spacing: 0.03em;
+    color: rgba(232, 228, 223, 0.85);
+  }
+
+  .text-block p {
+    margin-bottom: 28px;
+  }
+
+  /* Links */
+  .blank-link {
+    color: #c9a87c;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201, 168, 124, 0.4);
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .blank-link:hover {
+    color: #e0c9a6;
+    border-bottom-color: #e0c9a6;
+  }
+
+  /* ====== Animations ====== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ====== Mobile tweaks (keep same layout) ====== */
+  @media (max-width: 768px) {
+    .page-wrapper {
+      padding: 30px 18px 60px;
+      gap: 30px;
+    }
+  }
+
+  /* Fix iOS background-attachment: fixed bug */
+  @supports (-webkit-touch-callout: none) {
+    html, body {
+      background-attachment: scroll;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Page entrance transition -->
+<div class="page-transition"></div>
+
+<div class="page-wrapper">
+
+  <!-- ====== Book Image (clickable) ====== -->
+  <div class="painting-section">
+    <div class="painting-wrap">
+      <!-- ========== 书的图片+链接：替换href和src ========== -->
+      <a href="https://archive.org/details/castle01kafk">
+        <img src="YOUR_BOOK_IMAGE_URL_HERE" alt="The Castle" />
+      </a>
+      <!-- ================================================== -->
+    </div>
+  </div>
+
+  <!-- ====== Text ====== -->
+  <div class="text-section">
+
+    <div class="info-block">
+      <p><span class="label">Title:</span> Das Schloss / The Castle</p>
+      <p><span class="label">Artist:</span> Franz Kafka</p>
+      <p><span class="label">Year:</span> 1922–1926 (unfinished, published 1926)</p>
+      <p><span class="label">Style:</span> <a class="blank-link" href="YOUR_MODERNIST_LITERATURE_LINK_URL_HERE">Modernist Literature</a></p>
+    </div>
+
+    <div class="text-block">
+      <p>
+        Kafka's "The Castle" tells the story of a land surveyor named K. who arrives at a village, attempting to gain access to the mysterious castle perched above it. Yet no matter how hard he tries — writing letters, making requests, waiting, negotiating — the castle remains forever out of reach. The bureaucracy is indifferent and absurd, the rules hopelessly vague, and K. sinks ever deeper into endless frustration.
+      </p>
+
+      <p>
+        The novel came to an abrupt halt upon Kafka's death, left without an ending. K. never enters the castle, and the story never provides an answer. The manuscript breaks off mid-sentence in the twentieth chapter, as though the author's pen froze in midair. Kafka's close friend Max Brod defied his dying wish to "burn all manuscripts," instead editing and publishing this unfinished work for the world to read.
+      </p>
+
+      <p>
+        The incomplete structure actually reinforces the novel's core themes: absurdity, powerlessness, and the forever unreachable goal. K. cannot enter the castle, just as the reader cannot reach the story's conclusion. This incompleteness is not a flaw, but the most perfect metaphor for the modern human condition — we are all searching for some kind of meaning, yet can never truly arrive.
+      </p>
+
+      <p>
+        Kafka suffered from a profound lack of self-confidence during his lifetime, considering all his works to be failures. He battled tuberculosis, writing through pain, and ultimately <a class="blank-link" href="YOUR_DEATH_LINK_URL_HERE">passed away</a> in 1924 at the age of just 40. The unfinished state of "The Castle" is both a consequence of the disease that claimed his life and a reflection of his perfectionism — his perpetual dissatisfaction with his own work. Ironically, it is precisely these "unfinished works" he wished to destroy that made him one of the greatest writers of the twentieth century.
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
