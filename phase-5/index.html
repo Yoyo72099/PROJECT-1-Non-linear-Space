@@ -63,27 +63,22 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* Center enter hint */
-  .enter-hint {
-    font-family: 'Cactus Jack Alternate', sans-serif;
-    font-size: 2.5rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: rgba(201, 168, 124, 0.7);
+  /* Center enter GIF */
+  .enter-gif {
+    max-width: 200px;
+    height: auto;
     opacity: 0;
     transition: opacity 0.5s ease;
-    white-space: nowrap;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
   }
 
   /* Desktop hover */
-  .click-overlay:hover .enter-hint {
+  .click-overlay:hover .enter-gif {
     opacity: 1;
   }
 
   /* Mobile: always show hint since no hover */
   @media (hover: none) {
-    .enter-hint {
+    .enter-gif {
       opacity: 1;
       animation: hintPulse 3s ease-in-out infinite;
     }
@@ -151,11 +146,11 @@
 </div>
 <!-- =========================================================== -->
 
-<!-- ========== 点击整个画面进入第二页：替换下面的href ========== -->
+<!-- ========== 点击整个画面进入第二页：替换下面的动图src ========== -->
 <a class="click-overlay" href="https://yoyo72099.github.io/PROJECT-1-Non-linear-Space/phase-5/secondpage">
-  <span class="enter-hint">Click to enter →</span>
+  <img class="enter-gif" src="YOUR_GIF_URL_HERE" alt="Click to enter" />
 </a>
-<!-- =========================================================== -->
+<!-- ============================================================== -->
 
 </body>
 </html>
