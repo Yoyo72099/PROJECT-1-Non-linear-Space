@@ -1,1 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Rondanini Pietà</title>
+<style>
+  @font-face {
+    font-family: 'Cactus Jack Alternate';
+    src: url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/raw/refs/heads/main/Cactus-Jack-Alternate.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    min-height: 100vh;
+    /* ========== 背景图片：替换下面的URL ========== */
+    background: #0e0e0e url('YOUR_BACKGROUND_IMAGE_URL_HERE') center/cover fixed;
+    /* ============================================= */
+    color: #e8e4df;
+    font-family: 'Cactus Jack Alternate', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(14, 14, 14, 0.75);
+    z-index: 0;
+  }
+
+  /* ====== Page Entrance Transition ====== */
+  .page-transition {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a;
+    z-index: 9999;
+    pointer-events: none;
+    animation: pageReveal 1.2s ease 0.1s forwards;
+  }
+
+  @keyframes pageReveal {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* ====== Main Layout: Vertical ====== */
+  .page-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 30px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  /* ====== Sculpture Image ====== */
+  .painting-section {
+    width: 100%;
+    max-width: 750px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeUp 1s ease both;
+  }
+
+  .painting-wrap {
+    width: 100%;
+    border: 3px solid rgba(201, 168, 124, 0.25);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .painting-wrap img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ====== Text Section ====== */
+  .text-section {
+    width: 100%;
+    max-width: 750px;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+
+  .info-block {
+    margin-bottom: 35px;
+    line-height: 2;
+    font-size: 1.15rem;
+    letter-spacing: 0.03em;
+    color: rgba(232, 228, 223, 0.8);
+  }
+
+  .info-block p {
+    margin-bottom: 6px;
+  }
+
+  .info-block .label {
+    color: rgba(201, 168, 124, 0.7);
+  }
+
+  .text-block {
+    line-height: 2.1;
+    font-size: 1.1rem;
+    letter-spacing: 0.03em;
+    color: rgba(232, 228, 223, 0.85);
+  }
+
+  .text-block p {
+    margin-bottom: 28px;
+  }
+
+  /* Links */
+  .blank-link {
+    color: #c9a87c;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201, 168, 124, 0.4);
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .blank-link:hover {
+    color: #e0c9a6;
+    border-bottom-color: #e0c9a6;
+  }
+
+  /* ====== Animations ====== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ====== Mobile tweaks (keep same layout) ====== */
+  @media (max-width: 768px) {
+    .page-wrapper {
+      padding: 30px 18px 60px;
+      gap: 30px;
+    }
+  }
+
+  /* Fix iOS background-attachment: fixed bug */
+  @supports (-webkit-touch-callout: none) {
+    html, body {
+      background-attachment: scroll;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Page entrance transition -->
+<div class="page-transition"></div>
+
+<div class="page-wrapper">
+
+  <!-- ====== Sculpture Image ====== -->
+  <div class="painting-section">
+    <div class="painting-wrap">
+      <!-- ========== 雕塑图片：替换下面的src ========== -->
+      <img src="YOUR_SCULPTURE_IMAGE_URL_HERE" alt="Rondanini Pietà" />
+      <!-- ============================================== -->
+    </div>
+  </div>
+
+  <!-- ====== Text ====== -->
+  <div class="text-section">
+
+    <div class="info-block">
+      <p><span class="label">Title:</span> Rondanini Pietà</p>
+      <p><span class="label">Artist:</span> Michelangelo Buonarroti</p>
+      <p><span class="label">Year:</span> 1552–1564</p>
+      <p><span class="label">Style:</span> <a class="blank-link" href="YOUR_LATE_RENAISSANCE_LINK_URL_HERE">Late Renaissance</a></p>
+    </div>
+
+    <div class="text-block">
+      <p>
+        Michelangelo's "Rondanini Pietà" is a marble sculpture that could never be finished. On February 12, 1564, the 88-year-old Michelangelo collapsed in his Roman studio, still clutching his chisel and hammer. Six days later, he <a class="blank-link" href="YOUR_DEATH_LINK_URL_HERE">passed away</a>. The statue was left forever in its unfinished state — the Virgin Mary holding the body of Christ just taken down from the cross, the two figures almost fused into one, barely distinguishable.
+      </p>
+
+      <p>
+        This was the fourth and final Pietà that Michelangelo created in his lifetime. In stark contrast to the smooth, perfect, classically beautiful Pietà of his youth, this sculpture is rough, unpolished, and almost abstract. Christ's body is elongated and twisted, the Virgin's face barely discernible. Some areas are only crudely chiseled into rough outlines, while others still retain the raw surface of the original marble block. The right arm was completely cut away and re-carved, leaving obvious traces of revision.
+      </p>
+
+      <p>
+        Michelangelo spent twelve years repeatedly reworking this sculpture. Again and again he overturned his own vision, chiseling away completed sections to start anew. In the final years of his life, he worked on this block of marble in his studio nearly every day, as though racing against death — and yet also chasing some form of perfection that could never be reached. Biographers record that he was still modifying the sculpture just three days before his death.
+      </p>
+
+      <p>
+        The unfinished form paradoxically imbues the sculpture with a power that transcends the figurative. The rough surfaces, the uncarved stone, the blurred boundaries — all of it evokes the fragility of life, the inevitability of death, and the artist's desperate longing for redemption in his final moments. Michelangelo was using this sculpture to pray for his own soul, and death ensured that prayer would never be finished.
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
