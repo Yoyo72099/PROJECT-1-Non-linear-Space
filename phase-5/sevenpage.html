@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>George Washington — Athenaeum Portrait</title>
+<style>
+  @font-face {
+    font-family: 'Cactus Jack Alternate';
+    src: url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/raw/refs/heads/main/Cactus-Jack-Alternate.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    min-height: 100vh;
+    /* ========== 背景图片：替换下面的URL ========== */
+    background: #0e0e0e url('YOUR_BACKGROUND_IMAGE_URL_HERE') center/cover fixed;
+    /* ============================================= */
+    color: #e8e4df;
+    font-family: 'Cactus Jack Alternate', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(14, 14, 14, 0.75);
+    z-index: 0;
+  }
+
+  /* ====== Page Entrance Transition ====== */
+  .page-transition {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a;
+    z-index: 9999;
+    pointer-events: none;
+    animation: pageReveal 1.2s ease 0.1s forwards;
+  }
+
+  @keyframes pageReveal {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* ====== Main Layout: Vertical ====== */
+  .page-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 30px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  /* ====== Painting Image ====== */
+  .painting-section {
+    width: 100%;
+    max-width: 750px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeUp 1s ease both;
+  }
+
+  .painting-wrap {
+    width: 100%;
+    border: 3px solid rgba(201, 168, 124, 0.25);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .painting-wrap img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ====== Text Section ====== */
+  .text-section {
+    width: 100%;
+    max-width: 750px;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+
+  .info-block {
+    margin-bottom: 35px;
+    line-height: 2;
+    font-size: 2.05rem;
+    letter-spacing: 0.03em;
+    color: rgba(232, 228, 223, 0.8);
+  }
+
+  .info-block p {
+    margin-bottom: 6px;
+  }
+
+  .info-block .label {
+    color: rgba(201, 168, 124, 0.7);
+  }
+
+  .text-block {
+    line-height: 2.1;
+    font-size: 2rem;
+    letter-spacing: 0.03em;
+    color: rgba(232, 228, 223, 0.85);
+  }
+
+  .text-block p {
+    margin-bottom: 28px;
+  }
+
+  /* Links */
+  .blank-link {
+    color: #c9a87c;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201, 168, 124, 0.4);
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .blank-link:hover {
+    color: #e0c9a6;
+    border-bottom-color: #e0c9a6;
+  }
+
+  /* ====== Animations ====== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ====== Mobile tweaks (keep same layout) ====== */
+  @media (max-width: 768px) {
+    .page-wrapper {
+      padding: 30px 18px 60px;
+      gap: 30px;
+    }
+  }
+
+  /* Fix iOS background-attachment: fixed bug */
+  @supports (-webkit-touch-callout: none) {
+    html, body {
+      background-attachment: scroll;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Page entrance transition -->
+<div class="page-transition"></div>
+
+<div class="page-wrapper">
+
+  <!-- ====== Painting Image ====== -->
+  <div class="painting-section">
+    <div class="painting-wrap">
+      <!-- ========== 画作图片：替换下面的src ========== -->
+      <img src="YOUR_PAINTING_IMAGE_URL_HERE" alt="George Washington — Athenaeum Portrait" />
+      <!-- ============================================= -->
+    </div>
+  </div>
+
+  <!-- ====== Text ====== -->
+  <div class="text-section">
+
+    <div class="info-block">
+      <p><span class="label">Title:</span> George Washington (Athenaeum Portrait)</p>
+      <p><span class="label">Artist:</span> Gilbert Stuart</p>
+      <p><span class="label">Year:</span> 1796</p>
+      <p><span class="label">Style:</span> Neoclassicism</p>
+    </div>
+
+    <div class="text-block">
+      <p>
+        This painting was never finished, yet it became the most famous portrait in American history — the image of Washington on every U.S. dollar bill originates from this "unfinished" work.
+      </p>
+
+      <p>
+        In 1796, Washington's wife Martha commissioned portrait painter Gilbert Stuart to create a second portrait of her husband. Stuart meticulously rendered Washington's face — the resolute gaze, the tightly pressed lips, the commanding expression — but then he <a class="blank-link" href="https://yoyo72099.github.io/PROJECT-1-Non-linear-Space/phase-5/secondpage">deliberately set down his brush</a>. The background shows only a faint undercoat, the collar and shoulders are merely outlined, and the entire painting looks like an exquisite head floating on an empty canvas.
+      </p>
+
+      <p>
+        This was not laziness, nor a lack of inspiration. It was a shrewd business strategy. Stuart understood the allure of the "unfinished": it is mysterious, it is unique, it makes people forever imagine "what it would look like if completed." More importantly, as long as the original remained unfinished, he could keep it in his possession and use it as a master copy to continuously produce and sell replicas. He was proven right — Stuart made over 70 copies from this unfinished portrait, selling each for $100, a considerable sum at the time.
+      </p>
+
+      <p>
+        Stuart never delivered the original to Martha Washington, and when he died in 1828, the painting was still in his studio. It was eventually acquired by the Boston Athenaeum library, hence its name "Athenaeum Portrait." Ironically, it was precisely this "unfinished" state that elevated it above every completed portrait of Washington, making it the definitive image of America's founding father.
+      </p>
+
+      <p>
+        The unfinished background strips away the constraints of era and setting, transforming Washington's face into an eternal symbol. When the U.S. Treasury chose the design for the dollar bill in 1869, they selected not some grand, complete historical painting, but this "unfinished" portrait of just a face. From that moment on, everyone who uses a dollar bill gazes upon this deliberately preserved blank — a perfection created through the art of incompletion.
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
