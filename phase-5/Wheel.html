@@ -45,9 +45,7 @@
   .bg-layer {
     position: fixed;
     inset: 0;
-    /* ========== 背景图片：替换下面的URL ========== */
     background: #0a0a0a url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/IMG_6698.jpg?raw=true') center/cover fixed;
-    /* ============================================= */
     z-index: 0;
   }
 
@@ -66,7 +64,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    perspective: 1200px;
+    perspective: 1400px;
   }
 
   /* ====== Title ====== */
@@ -76,7 +74,7 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
-    font-size: 1.2rem;
+    font-size: 1.8rem;
     letter-spacing: 0.12em;
     color: rgba(201, 168, 124, 0.6);
     text-transform: lowercase;
@@ -85,40 +83,38 @@
 
   /* ====== Carousel ====== */
   .carousel {
-    width: 200px;
-    height: 260px;
+    width: 320px;
+    height: 440px;
     position: relative;
     transform-style: preserve-3d;
-    animation: autoSpin 40s linear infinite;
     cursor: grab;
   }
 
   .carousel:active {
     cursor: grabbing;
-    animation-play-state: paused;
   }
 
   .carousel.dragging {
-    animation-play-state: paused;
+    cursor: grabbing;
   }
 
   .card {
     position: absolute;
-    width: 200px;
-    height: 260px;
+    width: 320px;
+    height: 440px;
     top: 0;
     left: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: box-shadow 0.3s;
     backface-visibility: hidden;
   }
 
   .card img {
     width: 100%;
-    height: 200px;
+    height: 370px;
     object-fit: cover;
     border: 2px solid rgba(201, 168, 124, 0.2);
     box-shadow: 0 10px 40px rgba(0,0,0,0.5);
@@ -127,12 +123,12 @@
 
   .card:hover img {
     border-color: rgba(201, 168, 124, 0.6);
-    box-shadow: 0 15px 50px rgba(0,0,0,0.7);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
   }
 
   .card .card-label {
-    margin-top: 10px;
-    font-size: 0.75rem;
+    margin-top: 14px;
+    font-size: 1.1rem;
     letter-spacing: 0.06em;
     color: rgba(232, 228, 223, 0.7);
     text-align: center;
@@ -151,18 +147,13 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     letter-spacing: 0.1em;
     color: rgba(201, 168, 124, 0.4);
     animation: fadeUp 1s ease 1s both;
   }
 
   /* ====== Animations ====== */
-  @keyframes autoSpin {
-    from { transform: rotateY(0deg); }
-    to { transform: rotateY(360deg); }
-  }
-
   @keyframes fadeDown {
     from { opacity: 0; transform: translateX(-50%) translateY(-15px); }
     to { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -176,21 +167,24 @@
   /* ====== Mobile ====== */
   @media (max-width: 768px) {
     .carousel {
-      width: 150px;
-      height: 210px;
+      width: 220px;
+      height: 320px;
     }
     .card {
-      width: 150px;
-      height: 210px;
+      width: 220px;
+      height: 320px;
     }
     .card img {
-      height: 155px;
+      height: 260px;
     }
     .card .card-label {
-      font-size: 0.6rem;
+      font-size: 0.85rem;
     }
     .page-title {
-      font-size: 0.9rem;
+      font-size: 1.2rem;
+    }
+    .hint {
+      font-size: 0.7rem;
     }
   }
 
@@ -232,19 +226,19 @@
 
     <!-- ===== 4. Rondanini Pietà ===== -->
     <a class="card" href="https://yoyo72099.github.io/PROJECT-1-Non-linear-Space/phase-5/fivepage">
-      <img src="YOUR_IMAGE_4_URL_HERE" alt="Rondanini Pietà" />
+      <img src="https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/截屏2026-02-19%20下午3.03.22.png?raw=true" alt="Rondanini Pietà" />
       <span class="card-label">Rondanini Pietà</span>
     </a>
 
     <!-- ===== 5. The Keeper of the Flock ===== -->
     <a class="card" href="https://yoyo72099.github.io/PROJECT-1-Non-linear-Space/phase-5/sixpage">
-      <img src="YOUR_IMAGE_5_URL_HERE" alt="The Keeper of the Flock" />
+      <img src="https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/IMG_6685.PNG?raw=true" alt="The Keeper of the Flock" />
       <span class="card-label">Keeper of the Flock</span>
     </a>
 
     <!-- ===== 6. George Washington ===== -->
     <a class="card" href="https://yoyo72099.github.io/PROJECT-1-Non-linear-Space/phase-5/sevenpage">
-      <img src="YOUR_IMAGE_6_URL_HERE" alt="George Washington" />
+      <img src="https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/blob/main/IMG_6688.PNG?raw=true" alt="George Washington" />
       <span class="card-label">George Washington</span>
     </a>
 
@@ -268,18 +262,17 @@
 
   // Calculate radius based on card width
   const isMobile = window.innerWidth <= 768;
-  const cardW = isMobile ? 150 : 200;
-  const radius = Math.round((cardW + 40) / (2 * Math.tan(Math.PI / n)));
+  const cardW = isMobile ? 220 : 320;
+  const radius = Math.round((cardW + 60) / (2 * Math.tan(Math.PI / n)));
 
   // Position each card in 3D circle
   cards.forEach((card, i) => {
     card.style.transform = `rotateY(${theta * i}deg) translateZ(${radius}px)`;
   });
 
-  // ====== Drag to spin ======
+  // ====== Manual drag to spin ======
   let isDragging = false;
   let startX = 0;
-  let currentAngle = 0;
   let dragAngle = 0;
   let lastX = 0;
   let velocity = 0;
@@ -298,18 +291,6 @@
     lastX = startX;
     velocity = 0;
     carousel.classList.add('dragging');
-
-    // Get current computed rotation
-    const style = getComputedStyle(carousel);
-    const matrix = new DOMMatrix(style.transform);
-    // Extract Y rotation from matrix
-    const angle = Math.atan2(matrix.m13, matrix.m33);
-    currentAngle = angle * (180 / Math.PI);
-    dragAngle = currentAngle;
-
-    carousel.style.animation = 'none';
-    carousel.style.transform = `rotateY(${currentAngle}deg)`;
-
     cancelAnimationFrame(animFrame);
   }
 
@@ -322,8 +303,8 @@
     const x = getX(e);
     const dx = x - lastX;
     if (Math.abs(x - startX) > 5) wasDragged = true;
-    velocity = dx * 0.4;
-    dragAngle += dx * 0.4;
+    velocity = dx * 0.35;
+    dragAngle += dx * 0.35;
     carousel.style.transform = `rotateY(${dragAngle}deg)`;
     lastX = x;
   }
@@ -335,30 +316,15 @@
     if (!isDragging) return;
     isDragging = false;
     carousel.classList.remove('dragging');
-    // Momentum
     coast();
   }
 
   function coast() {
-    if (Math.abs(velocity) < 0.1) {
-      // Restart auto spin from current angle
-      restartAutoSpin();
-      return;
-    }
+    if (Math.abs(velocity) < 0.05) return;
     dragAngle += velocity;
-    velocity *= 0.96;
+    velocity *= 0.97;
     carousel.style.transform = `rotateY(${dragAngle}deg)`;
     animFrame = requestAnimationFrame(coast);
-  }
-
-  function restartAutoSpin() {
-    // Normalize angle
-    const norm = ((dragAngle % 360) + 360) % 360;
-    carousel.style.animation = 'none';
-    carousel.offsetHeight; // force reflow
-    carousel.style.transform = `rotateY(${norm}deg)`;
-    carousel.style.animation = `autoSpin 40s linear infinite`;
-    carousel.style.animationDelay = `${(-norm / 360) * 40}s`;
   }
 
   // Prevent click if dragged
