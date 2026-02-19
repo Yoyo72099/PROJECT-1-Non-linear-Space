@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Saint Jerome in the Wilderness</title>
+<style>
+  @font-face {
+    font-family: 'Cactus Jack Alternate';
+    src: url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/raw/refs/heads/main/Cactus-Jack-Alternate.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    min-height: 100vh;
+    /* ========== 背景图片：替换下面的URL ========== */
+    background: #0e0e0e url('YOUR_BACKGROUND_IMAGE_URL_HERE') center/cover fixed;
+    /* ============================================= */
+    color: #e8e4df;
+    font-family: 'Cactus Jack Alternate', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(14, 14, 14, 0.75);
+    z-index: 0;
+  }
+
+  /* ====== Page Entrance Transition ====== */
+  .page-transition {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a;
+    z-index: 9999;
+    pointer-events: none;
+    animation: pageReveal 1.2s ease 0.1s forwards;
+  }
+
+  @keyframes pageReveal {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* ====== Main Layout: Vertical ====== */
+  .page-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 30px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  /* ====== Painting + Edit Icon ====== */
+  .painting-section {
+    width: 100%;
+    max-width: 750px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeUp 1s ease both;
+  }
+
+  .painting-wrap {
+    width: 100%;
+    border: 3px solid rgba(201, 168, 124, 0.25);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .painting-wrap img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Edit icon + label below painting */
+  .edit-link {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0.7;
+  }
+
+  .edit-link:hover {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+
+  .edit-link img {
+    display: block;
+    width: 48px;
+    height: 48px;
+    filter: invert(1) brightness(1.2);
+  }
+
+  .edit-link span {
+    font-family: 'Cactus Jack Alternate', sans-serif;
+    font-size: 1.1rem;
+    color: rgba(201, 168, 124, 0.7);
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+  }
+
+  /* ====== Text Section ====== */
+  .text-section {
+    width: 100%;
+    max-width: 750px;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+
+  .info-block {
+    margin-bottom: 35px;
+    line-height: 2;
+    font-size: 1.15rem;
+    letter-spacing: 0.03em;
+    color: rgba(232, 228, 223, 0.8);
+  }
+
+  .info-block p {
+    margin-bottom: 6px;
+  }
+
+  .info-block .label {
+    color: rgba(201, 168, 124, 0.7);
+  }
+
+  .text-block {
+    line-height: 2.1;
+    font-size: 1.1rem;
+    letter-spacing: 0.03em;
+    color: rgba(232, 228, 223, 0.85);
+  }
+
+  .text-block p {
+    margin-bottom: 28px;
+  }
+
+  /* Links */
+  .blank-link {
+    color: #c9a87c;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201, 168, 124, 0.4);
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .blank-link:hover {
+    color: #e0c9a6;
+    border-bottom-color: #e0c9a6;
+  }
+
+  /* ====== Animations ====== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ====== Mobile tweaks (keep same layout) ====== */
+  @media (max-width: 768px) {
+    .page-wrapper {
+      padding: 30px 18px 60px;
+      gap: 30px;
+    }
+  }
+
+  /* Fix iOS background-attachment: fixed bug */
+  @supports (-webkit-touch-callout: none) {
+    html, body {
+      background-attachment: scroll;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Page entrance transition -->
+<div class="page-transition"></div>
+
+<div class="page-wrapper">
+
+  <!-- ====== Painting + Edit Icon ====== -->
+  <div class="painting-section">
+
+    <div class="painting-wrap">
+      <!-- ========== 画作图片：替换下面的src ========== -->
+      <img src="YOUR_PAINTING_IMAGE_URL_HERE" alt="Saint Jerome in the Wilderness" />
+      <!-- ============================================= -->
+    </div>
+
+
+  </div>
+
+  <!-- ====== Text ====== -->
+  <div class="text-section">
+
+    <div class="info-block">
+      <p><span class="label">Title:</span> Saint Jerome in the Wilderness</p>
+      <p><span class="label">Artist:</span> Leonardo da Vinci</p>
+      <p><span class="label">Year:</span> c. 1480</p>
+      <p><span class="label">Style:</span> <a class="blank-link" href="YOUR_STYLE_LINK_URL_HERE">Early Renaissance</a></p>
+    </div>
+
+    <div class="text-block">
+      <p>
+        Leonardo da Vinci's "Saint Jerome in the Wilderness" is a work forever frozen at the sketch stage. In the painting, Saint Jerome kneels in the wilderness, his emaciated body displaying astonishing anatomical precision — every muscle, every bone clearly visible. His right hand raises a stone, poised to strike his own chest in penance, his expression filled with anguish and devotion.
+      </p>
+
+      <p>
+        The painting was never fully colored, retaining only the underpainting layer and precise sketch lines. The lion in the background — a symbol of Saint Jerome — is only partially rendered, and the cave and landscape exist merely as vague outlines. The vast expanses of bare canvas seem to narrate an unfinished story, allowing the viewer to witness the most raw state of artistic creation.
+      </p>
+
+      <p>
+        Da Vinci was renowned for his extreme <a class="blank-link" href="YOUR_PERFECTIONISM_LINK_URL_HERE">perfectionism</a> and his obsession with multiple disciplines. When he delved deeply into the study of human anatomy, optical principles, or the design of flying machines, his paintbrush was often set aside. For him, exploring the scientific truth of muscular structure may have been more important than completing a religious painting. The saint's body in this work became a perfect subject for anatomical study — and perhaps that was Da Vinci's true purpose all along.
+      </p>
+
+      <p>
+        The unfinished brushstrokes not only reveal the creative process of a Renaissance master, but also expose the contradiction within a genius artist: the eternal tension between boundless curiosity and the limits of time.
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
