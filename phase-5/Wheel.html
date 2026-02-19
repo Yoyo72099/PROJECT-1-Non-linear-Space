@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>The Unfinished Gallery</title>
+<style>
+  @font-face {
+    font-family: 'Cactus Jack Alternate';
+    src: url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/raw/refs/heads/main/Cactus-Jack-Alternate.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #0a0a0a;
+    color: #e8e4df;
+    font-family: 'Cactus Jack Alternate', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ====== Page Entrance Transition ====== */
+  .page-transition {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a;
+    z-index: 9999;
+    pointer-events: none;
+    animation: pageReveal 1.2s ease 0.1s forwards;
+  }
+
+  @keyframes pageReveal {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* ====== Background ====== */
+  .bg-layer {
+    position: fixed;
+    inset: 0;
+    /* ========== 背景图片：替换下面的URL ========== */
+    background: #0a0a0a url('YOUR_BACKGROUND_IMAGE_URL_HERE') center/cover fixed;
+    /* ============================================= */
+    z-index: 0;
+  }
+
+  .bg-layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 10, 0.8);
+  }
+
+  /* ====== Main container ====== */
+  .scene {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1200px;
+  }
+
+  /* ====== Title ====== */
+  .page-title {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    font-size: 1.2rem;
+    letter-spacing: 0.12em;
+    color: rgba(201, 168, 124, 0.6);
+    text-transform: lowercase;
+    animation: fadeDown 1s ease 0.5s both;
+  }
+
+  /* ====== Carousel ====== */
+  .carousel {
+    width: 200px;
+    height: 260px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: autoSpin 40s linear infinite;
+    cursor: grab;
+  }
+
+  .carousel:active {
+    cursor: grabbing;
+    animation-play-state: paused;
+  }
+
+  .carousel.dragging {
+    animation-play-state: paused;
+  }
+
+  .card {
+    position: absolute;
+    width: 200px;
+    height: 260px;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+    backface-visibility: hidden;
+  }
+
+  .card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border: 2px solid rgba(201, 168, 124, 0.2);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .card:hover img {
+    border-color: rgba(201, 168, 124, 0.6);
+    box-shadow: 0 15px 50px rgba(0,0,0,0.7);
+  }
+
+  .card .card-label {
+    margin-top: 10px;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    color: rgba(232, 228, 223, 0.7);
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+  }
+
+  .card:hover .card-label {
+    color: #c9a87c;
+  }
+
+  /* ====== Hint ====== */
+  .hint {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: rgba(201, 168, 124, 0.4);
+    animation: fadeUp 1s ease 1s both;
+  }
+
+  /* ====== Animations ====== */
+  @keyframes autoSpin {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateX(-50%) translateY(-15px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateX(-50%) translateY(15px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  /* ====== Mobile ====== */
+  @media (max-width: 768px) {
+    .carousel {
+      width: 150px;
+      height: 210px;
+    }
+    .card {
+      width: 150px;
+      height: 210px;
+    }
+    .card img {
+      height: 155px;
+    }
+    .card .card-label {
+      font-size: 0.6rem;
+    }
+    .page-title {
+      font-size: 0.9rem;
+    }
+  }
+
+  /* Fix iOS background */
+  @supports (-webkit-touch-callout: none) {
+    .bg-layer {
+      background-attachment: scroll;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-transition"></div>
+<div class="bg-layer"></div>
+
+<div class="page-title">the unfinished gallery</div>
+
+<div class="scene">
+  <div class="carousel" id="carousel">
+
+    <!-- ===== 1. A Finished Story ===== -->
+    <a class="card" href="YOUR_PAGE2_URL_HERE">
+      <img src="YOUR_IMAGE_1_URL_HERE" alt="A Finished Story" />
+      <span class="card-label">A Finished Story</span>
+    </a>
+
+    <!-- ===== 2. Saint Jerome ===== -->
+    <a class="card" href="YOUR_PAGE3_URL_HERE">
+      <img src="YOUR_IMAGE_2_URL_HERE" alt="Saint Jerome in the Wilderness" />
+      <span class="card-label">Saint Jerome</span>
+    </a>
+
+    <!-- ===== 3. The Castle ===== -->
+    <a class="card" href="YOUR_PAGE4_URL_HERE">
+      <img src="YOUR_IMAGE_3_URL_HERE" alt="The Castle" />
+      <span class="card-label">The Castle</span>
+    </a>
+
+    <!-- ===== 4. Rondanini Pietà ===== -->
+    <a class="card" href="YOUR_PAGE5_URL_HERE">
+      <img src="YOUR_IMAGE_4_URL_HERE" alt="Rondanini Pietà" />
+      <span class="card-label">Rondanini Pietà</span>
+    </a>
+
+    <!-- ===== 5. The Keeper of the Flock ===== -->
+    <a class="card" href="YOUR_PAGE6_URL_HERE">
+      <img src="YOUR_IMAGE_5_URL_HERE" alt="The Keeper of the Flock" />
+      <span class="card-label">Keeper of the Flock</span>
+    </a>
+
+    <!-- ===== 6. George Washington ===== -->
+    <a class="card" href="YOUR_PAGE7_URL_HERE">
+      <img src="YOUR_IMAGE_6_URL_HERE" alt="George Washington" />
+      <span class="card-label">George Washington</span>
+    </a>
+
+    <!-- ===== 7. Alexander and Bucephalus ===== -->
+    <a class="card" href="YOUR_PAGE8_URL_HERE">
+      <img src="YOUR_IMAGE_7_URL_HERE" alt="Alexander and Bucephalus" />
+      <span class="card-label">Alexander & Bucephalus</span>
+    </a>
+
+  </div>
+</div>
+
+<div class="hint">drag to spin · click to enter</div>
+
+<script>
+(() => {
+  const carousel = document.getElementById('carousel');
+  const cards = carousel.querySelectorAll('.card');
+  const n = cards.length;
+  const theta = 360 / n;
+
+  // Calculate radius based on card width
+  const isMobile = window.innerWidth <= 768;
+  const cardW = isMobile ? 150 : 200;
+  const radius = Math.round((cardW + 40) / (2 * Math.tan(Math.PI / n)));
+
+  // Position each card in 3D circle
+  cards.forEach((card, i) => {
+    card.style.transform = `rotateY(${theta * i}deg) translateZ(${radius}px)`;
+  });
+
+  // ====== Drag to spin ======
+  let isDragging = false;
+  let startX = 0;
+  let currentAngle = 0;
+  let dragAngle = 0;
+  let lastX = 0;
+  let velocity = 0;
+  let animFrame;
+  let wasDragged = false;
+
+  const getX = (e) => e.touches ? e.touches[0].clientX : e.clientX;
+
+  carousel.addEventListener('mousedown', startDrag);
+  carousel.addEventListener('touchstart', startDrag, { passive: false });
+
+  function startDrag(e) {
+    isDragging = true;
+    wasDragged = false;
+    startX = getX(e);
+    lastX = startX;
+    velocity = 0;
+    carousel.classList.add('dragging');
+
+    // Get current computed rotation
+    const style = getComputedStyle(carousel);
+    const matrix = new DOMMatrix(style.transform);
+    // Extract Y rotation from matrix
+    const angle = Math.atan2(matrix.m13, matrix.m33);
+    currentAngle = angle * (180 / Math.PI);
+    dragAngle = currentAngle;
+
+    carousel.style.animation = 'none';
+    carousel.style.transform = `rotateY(${currentAngle}deg)`;
+
+    cancelAnimationFrame(animFrame);
+  }
+
+  document.addEventListener('mousemove', onDrag);
+  document.addEventListener('touchmove', onDrag, { passive: false });
+
+  function onDrag(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = getX(e);
+    const dx = x - lastX;
+    if (Math.abs(x - startX) > 5) wasDragged = true;
+    velocity = dx * 0.4;
+    dragAngle += dx * 0.4;
+    carousel.style.transform = `rotateY(${dragAngle}deg)`;
+    lastX = x;
+  }
+
+  document.addEventListener('mouseup', endDrag);
+  document.addEventListener('touchend', endDrag);
+
+  function endDrag() {
+    if (!isDragging) return;
+    isDragging = false;
+    carousel.classList.remove('dragging');
+    // Momentum
+    coast();
+  }
+
+  function coast() {
+    if (Math.abs(velocity) < 0.1) {
+      // Restart auto spin from current angle
+      restartAutoSpin();
+      return;
+    }
+    dragAngle += velocity;
+    velocity *= 0.96;
+    carousel.style.transform = `rotateY(${dragAngle}deg)`;
+    animFrame = requestAnimationFrame(coast);
+  }
+
+  function restartAutoSpin() {
+    // Normalize angle
+    const norm = ((dragAngle % 360) + 360) % 360;
+    carousel.style.animation = 'none';
+    carousel.offsetHeight; // force reflow
+    carousel.style.transform = `rotateY(${norm}deg)`;
+    carousel.style.animation = `autoSpin 40s linear infinite`;
+    carousel.style.animationDelay = `${(-norm / 360) * 40}s`;
+  }
+
+  // Prevent click if dragged
+  cards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (wasDragged) {
+        e.preventDefault();
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
