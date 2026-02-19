@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>The Keeper of the Flock</title>
+<style>
+  @font-face {
+    font-family: 'Cactus Jack Alternate';
+    src: url('https://github.com/Yoyo72099/PROJECT-1-Non-linear-Space/raw/refs/heads/main/Cactus-Jack-Alternate.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    min-height: 100vh;
+    /* ========== 背景图片：替换下面的URL ========== */
+    background: #0e0e0e url('YOUR_BACKGROUND_IMAGE_URL_HERE') center/cover fixed;
+    /* ============================================= */
+    color: #e8e4df;
+    font-family: 'Cactus Jack Alternate', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(14, 14, 14, 0.75);
+    z-index: 0;
+  }
+
+  /* ====== Page Entrance Transition ====== */
+  .page-transition {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a;
+    z-index: 9999;
+    pointer-events: none;
+    animation: pageReveal 1.2s ease 0.1s forwards;
+  }
+
+  @keyframes pageReveal {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* ====== Main Layout: Vertical ====== */
+  .page-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 30px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  /* ====== Painting Image ====== */
+  .painting-section {
+    width: 100%;
+    max-width: 750px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeUp 1s ease both;
+  }
+
+  .painting-wrap {
+    width: 100%;
+    border: 3px solid rgba(201, 168, 124, 0.25);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .painting-wrap img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ====== Text Section ====== */
+  .text-section {
+    width: 100%;
+    max-width: 750px;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+
+  .info-block {
+    margin-bottom: 35px;
+    line-height: 2;
+    font-size: 2.05rem;
+    letter-spacing: 0.03em;
+    color: rgba(232, 228, 223, 0.8);
+  }
+
+  .info-block p {
+    margin-bottom: 6px;
+  }
+
+  .info-block .label {
+    color: rgba(201, 168, 124, 0.7);
+  }
+
+  .text-block {
+    line-height: 2.1;
+    font-size: 2rem;
+    letter-spacing: 0.03em;
+    color: rgba(232, 228, 223, 0.85);
+  }
+
+  .text-block p {
+    margin-bottom: 28px;
+  }
+
+  /* Links */
+  .blank-link {
+    color: #c9a87c;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201, 168, 124, 0.4);
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .blank-link:hover {
+    color: #e0c9a6;
+    border-bottom-color: #e0c9a6;
+  }
+
+  /* ====== Animations ====== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ====== Mobile tweaks (keep same layout) ====== */
+  @media (max-width: 768px) {
+    .page-wrapper {
+      padding: 30px 18px 60px;
+      gap: 30px;
+    }
+  }
+
+  /* Fix iOS background-attachment: fixed bug */
+  @supports (-webkit-touch-callout: none) {
+    html, body {
+      background-attachment: scroll;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Page entrance transition -->
+<div class="page-transition"></div>
+
+<div class="page-wrapper">
+
+  <!-- ====== Painting Image ====== -->
+  <div class="painting-section">
+    <div class="painting-wrap">
+      <!-- ========== 画作图片：替换下面的src ========== -->
+      <img src="YOUR_PAINTING_IMAGE_URL_HERE" alt="The Keeper of the Flock" />
+      <!-- ============================================= -->
+    </div>
+  </div>
+
+  <!-- ====== Text ====== -->
+  <div class="text-section">
+
+    <div class="info-block">
+      <p><span class="label">Title:</span> The Keeper of the Flock (Le Gardien du Troupeau)</p>
+      <p><span class="label">Artist:</span> Jean-François Millet</p>
+      <p><span class="label">Year:</span> 1871–1874 (unfinished)</p>
+      <p><span class="label">Style:</span> <a class="blank-link" href="YOUR_REALISM_LINK_URL_HERE">Realism</a></p>
+    </div>
+
+    <div class="text-block">
+      <p>
+        Millet's "The Keeper of the Flock" is a pastoral idyll forever suspended in an unfinished state. In the painting, a shepherd sits quietly in the fields, watching over his flock. The sky, the meadow, the distant trees — these elements exist only as outlines and preliminary tones, as though veiled beneath a thin mist. Some areas retain nothing more than traces of the underdrawing, awaiting brushstrokes from an artist who would never return.
+      </p>
+
+      <p>
+        This was a work from the final years of Millet's life. Beginning in 1871, his health steadily declined — severe migraines, rheumatism, and sciatica tormented him. Yet he continued to create, using his brush to record the French countryside he deeply loved and the farmers who labored upon its soil. The shepherd was a subject Millet cherished throughout his life: solitary, quiet, living in harmony with nature — a reflection of the artist himself.
+      </p>
+
+      <p>
+        In December 1874, the pain finally prevented Millet from standing before his easel. Bedridden, during intermittent moments of clarity, he implored his family to stay united after he was gone. On January 20, 1875, the 61-year-old painter of peasants <a class="blank-link" href="YOUR_DEATH_LINK_URL_HERE">passed away</a> peacefully at his home in Barbizon. "The Keeper of the Flock," along with the other unfinished works in his studio, became the final testament to his artistic life.
+      </p>
+
+      <p>
+        The unfinished form bestows upon this painting a special kind of poetry. The blank canvas, the blurred outlines, the unrefined brushstrokes — these are not flaws, but traces of time standing still. Just as the shepherd in Millet's painting forever watches over his flock, this painting forever watches over a moment of completion that was never reached. Millet spent his entire life celebrating the dignity of the land and those who worked it, and death silenced that song just before its final note.
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
